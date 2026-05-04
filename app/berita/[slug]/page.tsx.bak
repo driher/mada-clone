@@ -6,7 +6,7 @@ export default async function Page({
   const { slug } = await params;
 
   const res = await fetch(
-    https://mada.akarmusic.com/wp-json/wp/v2/posts?slug=${slug}&_embed
+    `https://mada.akarmusic.com/wp-json/wp/v2/posts?slug=${slug}&_embed`,
     { cache: "no-store" }
   );
 
