@@ -10,20 +10,93 @@ export default function Navbar() {
 
   const menus = [
     {
-      name: "Prodi Humas",
-      items: ["Sejarah", "Visi Misi", "Pimpinan"],
-    },
-    {
-      name: "Prodi Jurnalistik",
-      items: ["Sejarah", "Visi Misi", "Pimpinan"],
+      name: "Profil",
+      items: [
+        { label: "Sejarah Prodi", href: "/profil/sejarah" },
+        { label: "Visi & Misi", href: "/profil/visi-misi" },
+        { label: "Tujuan", href: "/profil/tujuan" },
+        { label: "Akreditasi", href: "/profil/akreditasi" },
+        { label: "Struktur Organisasi", href: "/profil/struktur" },
+        { label: "Dosen & Tenaga Pengajar", href: "/profil/dosen" },
+        { label: "Staff Administrasi", href: "/profil/staff" },
+        { label: "Fasilitas", href: "/profil/fasilitas" },
+      ],
     },
     {
       name: "Akademik",
-      items: ["Persuratan", "Perkuliahan", "Kalender Akademik"],
+      items: [
+        { label: "Kurikulum", href: "/akademik/kurikulum" },
+        { label: "Mata Kuliah", href: "/akademik/mata-kuliah" },
+        { label: "Kalender Akademik", href: "/akademik/kalender" },
+        { label: "Panduan Akademik", href: "/akademik/panduan" },
+        { label: "Sistem Perkuliahan", href: "/akademik/sistem" },
+        { label: "Konsentrasi Humas", href: "/akademik/humas" },
+        { label: "Konsentrasi Jurnalistik", href: "/akademik/jurnalistik" },
+      ],
     },
     {
-      name: "Kehidupan Kampus",
-      items: ["Organisasi", "Kegiatan Mahasiswa", "Beasiswa"],
+      name: "Berita",
+      items: [
+        { label: "Berita Kampus", href: "/berita" },
+        { label: "Artikel Ilmiah", href: "/artikel" },
+        { label: "Opini Mahasiswa", href: "/opini" },
+        { label: "Kegiatan Prodi", href: "/kegiatan" },
+        { label: "Kategori Akademik", href: "/category/akademik" },
+        { label: "Kategori Event", href: "/category/event" },
+        { label: "Kategori Prestasi", href: "/category/prestasi" },
+      ],
+    },
+    {
+      name: "Agenda",
+      items: [
+        { label: "Event Mendatang", href: "/agenda" },
+        { label: "Event Berlangsung", href: "/agenda/berlangsung" },
+        { label: "Arsip Kegiatan", href: "/agenda/arsip" },
+      ],
+    },
+    {
+      name: "Pengumuman",
+      items: [
+        { label: "Pengumuman Akademik", href: "/pengumuman/akademik" },
+        { label: "Pengumuman Umum", href: "/pengumuman" },
+        { label: "Beasiswa", href: "/pengumuman/beasiswa" },
+        { label: "Lowongan / Magang", href: "/pengumuman/karir" },
+      ],
+    },
+    {
+      name: "Mahasiswa",
+      items: [
+        { label: "Mahasiswa Berprestasi", href: "/mahasiswa/prestasi" },
+        { label: "Karya Mahasiswa", href: "/mahasiswa/karya" },
+        { label: "Testimoni Alumni", href: "/alumni/testimoni" },
+        { label: "Jejak Alumni", href: "/alumni/karir" },
+      ],
+    },
+    {
+      name: "Penelitian",
+      items: [
+        { label: "Jurnal Ilmiah", href: "/penelitian/jurnal" },
+        { label: "Penelitian Dosen", href: "/penelitian/dosen" },
+        { label: "Repository", href: "/penelitian/repository" },
+        { label: "Pengabdian Masyarakat", href: "/penelitian/pkm" },
+      ],
+    },
+    {
+      name: "Galeri",
+      items: [
+        { label: "Foto Kegiatan", href: "/galeri/foto" },
+        { label: "Video Dokumentasi", href: "/galeri/video" },
+        { label: "Media Coverage", href: "/galeri/media" },
+      ],
+    },
+    {
+      name: "Download",
+      items: [
+        { label: "Form Akademik", href: "/download/form" },
+        { label: "Panduan Skripsi", href: "/download/skripsi" },
+        { label: "Template Proposal", href: "/download/template" },
+        { label: "Dokumen Penting", href: "/download/dokumen" },
+      ],
     },
   ];
 
@@ -33,10 +106,10 @@ export default function Navbar() {
 
         {/* LOGO */}
         <Link href="/" className="flex items-center gap-3">
-          <Image src="/logo1.png" alt="logo" width={220} height={200} />
+          <Image src="/logo1.png" alt="logo" width={180} height={60} />
         </Link>
 
-        {/* HAMBURGER (MOBILE) */}
+        {/* HAMBURGER */}
         <button
           className="md:hidden text-2xl"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -44,10 +117,10 @@ export default function Navbar() {
           ☰
         </button>
 
-        {/* DESKTOP MENU */}
+        {/* DESKTOP */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">
 
-          <Link href="/" className="hover:text-orange-500 transition">
+          <Link href="/" className="hover:text-orange-500">
             Home
           </Link>
 
@@ -58,42 +131,28 @@ export default function Navbar() {
               onMouseEnter={() => setOpen(menu.name)}
               onMouseLeave={() => setOpen(null)}
             >
-              {/* MAIN MENU */}
-              <div className="flex items-center gap-1 cursor-pointer hover:text-orange-500 transition">
-                <span>{menu.name}</span>
-
-                <svg
-                  className={`w-3 h-3 transition-transform duration-300 ${
-                    open === menu.name ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+              <div className="cursor-pointer hover:text-orange-500">
+                {menu.name}
               </div>
 
               {/* DROPDOWN */}
               <div
-                className={`absolute left-0 top-7 w-52 bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-200 origin-top ${
+                className={`absolute left-0 top-full w-64 bg-white shadow-xl rounded-xl border transition-all duration-200 ${
                   open === menu.name
-                    ? "opacity-100 scale-100 visible"
-                    : "opacity-0 scale-95 invisible"
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-95 pointer-events-none"
                 }`}
               >
+                {/* BRIDGE AREA */}
+                <div className="absolute -top-3 left-0 w-full h-3"></div>
+
                 {menu.items.map((item) => (
                   <Link
-                    key={item}
-                    href="#"
+                    key={item.label}
+                    href={item.href}
                     className="block px-4 py-2 text-sm hover:bg-orange-50 hover:text-orange-600"
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 ))}
               </div>
@@ -102,7 +161,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE */}
       {mobileOpen && (
         <div className="md:hidden bg-white border-t px-4 pb-4">
 
@@ -116,22 +175,20 @@ export default function Navbar() {
 
           {menus.map((menu) => (
             <div key={menu.name} className="border-b py-2">
-
               <p className="font-medium">{menu.name}</p>
 
               <div className="pl-3 mt-1">
                 {menu.items.map((item) => (
                   <Link
-                    key={item}
-                    href="#"
+                    key={item.label}
+                    href={item.href}
                     className="block py-1 text-sm text-gray-600 hover:text-orange-500"
                     onClick={() => setMobileOpen(false)}
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 ))}
               </div>
-
             </div>
           ))}
 

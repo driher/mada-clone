@@ -1,3 +1,7 @@
+import Image from "next/image";
+
+export const revalidate = 60;
+
 export default async function Page({
   params,
 }: {
@@ -5,63 +9,90 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  // 1. ambil kategori
-  const catRes = await fetch(
-    `https://mada.akarmusic.com/wp-json/wp/v2/categories?slug=${slug}`
+  // FETCH POST
+  const res = await fetch(
+    `https://mada.akarmusic.com/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+    { next: { revalidate: 60 } }
   );
 
-  const catData = await catRes.json();
-  const category = catData?.[0];
+  const data = await res.json();
+  const post = data?.[0];
 
-  if (!category) {
-    return <div className="p-6">Kategori tidak ditemukan</div>;
+  if (!post) {
+    return <div className="p-6">Berita tidak ditemukan</div>;
   }
 
-  // 2. ambil posts
-  const res = await fetch(
-    `https://mada.akarmusic.com/wp-json/wp/v2/posts?categories=${category.id}&_embed`,
-    { cache: "no-store" }
-  );
+  // IMAGE
+  const image =
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+    "/no-image.jpg";
 
-  const posts = await res.json();
+  // DATE
+  const date = new Date(post.date).toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 px-4">
-      <h1 className="text-2xl font-bold mb-6">
-        Kategori: {category.name}
-      </h1>
+    <main className="bg-gray-50 min-h-screen py-10">
+      <article className="max-w-3xl mx-auto px-4">
 
-      <div className="grid md:grid-cols-3 gap-6">
-        {posts.map((post: any) => {
-          const image =
-            post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+        {/* JUDUL */}
+        <h1
+          className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight mb-4"
+          dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+        />
 
-          return (
-            <a
-              key={post.id}
-              href={`/berita/${post.slug}`}
-              className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
-            >
-              {image && (
-                <img
-                  src={image}
-                  className="w-full h-40 object-cover"
-                  alt={post.title.rendered}
-                />
-              )}
+        {/* META */}
+        <div className="text-sm text-gray-500 mb-6">
+          {date}
+        </div>
 
-              <div className="p-4">
-                <h3
-                  className="text-sm font-medium"
-                  dangerouslySetInnerHTML={{
-                    __html: post.title.rendered,
-                  }}
-                />
-              </div>
-            </a>
-          );
-        })}
-      </div>
-    </div>
+        {/* IMAGE */}
+        <div className="mb-8">
+          <Image
+            src={image}
+            alt={post.title.rendered}
+            width={800}
+            height={450}
+            className="w-full h-auto rounded-xl object-cover"
+          />
+        </div>
+
+        {/* CONTENT — FIX SPACING TOTAL */}
+        <div
+          className="
+            text-gray-700 
+            leading-relaxed
+
+            /* FORCE SPACING SEMUA ELEMEN */
+            [&>*]:mb-4
+
+            /* PARAGRAF */
+            [&>p]:mb-5
+
+            /* HEADING */
+            [&>h2]:mt-8 [&>h2]:mb-4 [&>h2]:text-2xl [&>h2]:font-bold
+            [&>h3]:mt-6 [&>h3]:mb-3 [&>h3]:text-xl [&>h3]:font-semibold
+
+            /* LIST */
+            [&>ul]:mb-5 [&>ul]:pl-5 [&>ul]:list-disc
+            [&>ol]:mb-5 [&>ol]:pl-5 [&>ol]:list-decimal
+
+            /* IMAGE DALAM ARTIKEL */
+            [&>figure]:mb-6
+            [&_img]:rounded-xl
+
+            /* LINK */
+            [&>p>a]:text-blue-600 [&>p>a]:underline
+          "
+          dangerouslySetInnerHTML={{
+            __html: post.content.rendered,
+          }}
+        />
+
+      </article>
+    </main>
   );
 }
