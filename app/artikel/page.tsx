@@ -1,0 +1,71 @@
+import Link from "next/link";
+import Image from "next/image";
+
+export const revalidate = 60;
+
+export default async function Page() {
+  const res = await fetch(
+    "https://mada.akarmusic.com/wp-json/wp/v2/posts?categories=66&_embed&per_page=9",
+    { next: { revalidate: 60 } }
+  );
+
+  const posts = await res.json();
+
+  const getImage = (post: any) =>
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+    "/no-image.jpg";
+
+  return (
+    <main className="bg-gray-50 min-h-screen py-10">
+      <section className="max-w-6xl mx-auto px-4">
+
+        {/* TITLE */}
+        <h1 className="text-2xl md:text-3xl font-bold mb-8">
+          Artikel Terbaru
+        </h1>
+
+        {/* GRID */}
+        <div className="grid md:grid-cols-3 gap-6">
+
+          {posts.map((post: any) => (
+            <Link key={post.id} href={`/berita/${post.slug}`}>
+              <div className="bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer">
+
+                {/* IMAGE */}
+                <div className="relative w-full h-48">
+                  <Image
+                    src={getImage(post)}
+                    alt={post.title.rendered}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+
+                {/* CONTENT */}
+                <div className="p-4">
+                  <h2
+                    className="font-semibold text-lg leading-snug line-clamp-2"
+                    dangerouslySetInnerHTML={{
+                      __html: post.title.rendered,
+                    }}
+                  />
+
+                  <p className="text-sm text-gray-500 mt-2">
+                    {new Date(post.date).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+
+              </div>
+            </Link>
+          ))}
+
+        </div>
+
+      </section>
+    </main>
+  );
+}
