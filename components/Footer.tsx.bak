@@ -1,0 +1,84 @@
+import { Instagram, Youtube, MessageCircle } from "lucide-react";
+
+const Footer = () => {
+  return (
+    <footer className="mt-24 bg-gradient-to-b from-gray-900 to-black text-gray-300">
+      <div className="max-w-6xl mx-auto px-4 py-14 grid md:grid-cols-4 gap-10">
+
+        {/* BRAND */}
+        <div>
+          <h2 className="text-white text-2xl font-bold mb-3 tracking-tight">
+            Ilmu Komunikasi
+          </h2>
+          <p className="text-sm text-gray-400 leading-relaxed">
+            Program studi komunikasi modern, media digital, dan kehumasan profesional.
+          </p>
+          <div className="w-12 h-1 bg-green-500 mt-4 rounded" />
+        </div>
+
+        {/* NAVIGASI */}
+        <div>
+          <h3 className="text-white font-semibold mb-4">Navigasi</h3>
+          <ul className="space-y-2 text-sm">
+            <li><a href="/" className="hover:text-white transition">Beranda</a></li>
+            <li><a href="/berita" className="hover:text-white transition">Berita</a></li>
+            <li><a href="/profil" className="hover:text-white transition">Profil</a></li>
+            <li><a href="/kontak" className="hover:text-white transition">Kontak</a></li>
+          </ul>
+        </div>
+
+        {/* KONTAK */}
+        <div>
+          <h3 className="text-white font-semibold mb-4">Kontak</h3>
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>Email: info@kampus.ac.id</li>
+            <li>Telp: (021) 12345678</li>
+            <li>Bandung, Jawa Barat</li>
+          </ul>
+        </div>
+
+        {/* SOSIAL */}
+        <div>
+          <h3 className="text-white font-semibold mb-4">Terhubung</h3>
+
+          <div className="flex gap-3">
+
+            <a
+              href="#"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-pink-500 transition"
+            >
+              <Instagram size={18} />
+            </a>
+
+            <a
+              href="#"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-red-500 transition"
+            >
+              <Youtube size={18} />
+            </a>
+
+            <a
+              href="#"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-green-500 transition"
+            >
+              <MessageCircle size={18} />
+            </a>
+
+          </div>
+
+          <p className="text-xs text-gray-500 mt-4">
+            Ikuti kami untuk update terbaru
+          </p>
+        </div>
+
+      </div>
+
+      {/* BOTTOM */}
+      <div className="border-t border-gray-800 text-center text-sm text-gray-500 py-6">
+        © {new Date().getFullYear()} Ilmu Komunikasi
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
