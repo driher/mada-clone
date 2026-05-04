@@ -3,6 +3,13 @@ import Link from "next/link";
 export default function NewsModern({ posts }: any) {
   if (!posts || posts.length === 0) return null;
 
+  // 🔥 FILTER BERITA (ID = 44)
+  const beritaPosts = posts.filter((post: any) =>
+    post.categories?.includes(44)
+  );
+
+  if (beritaPosts.length === 0) return null;
+
   const getImage = (post: any) =>
     post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
     "/no-image.jpg";
@@ -15,13 +22,13 @@ export default function NewsModern({ posts }: any) {
 
       <div className="grid md:grid-cols-3 gap-6">
 
-        {/* 🔥 BERITA UTAMA (LEBIH BESAR) */}
-        {posts[0] && (
-          <Link href={`/berita/${posts[0].slug}`}>
+        {/* BERITA UTAMA */}
+        {beritaPosts[0] && (
+          <Link href={`/berita/${beritaPosts[0].slug}`}>
             <div className="bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer h-full">
 
               <img
-                src={getImage(posts[0])}
+                src={getImage(beritaPosts[0])}
                 className="w-full h-80 object-cover"
               />
 
@@ -29,7 +36,7 @@ export default function NewsModern({ posts }: any) {
                 <h3
                   className="text-xl font-semibold leading-snug"
                   dangerouslySetInnerHTML={{
-                    __html: posts[0].title.rendered,
+                    __html: beritaPosts[0].title.rendered,
                   }}
                 />
               </div>
@@ -38,10 +45,10 @@ export default function NewsModern({ posts }: any) {
           </Link>
         )}
 
-        {/* 👉 KANAN: 4 BERITA KECIL (GRID 2x2) */}
+        {/* GRID KANAN */}
         <div className="grid grid-cols-2 gap-6 md:col-span-2">
 
-          {posts.slice(1, 5).map((post: any) => (
+          {beritaPosts.slice(1, 5).map((post: any) => (
             <Link key={post.id} href={`/berita/${post.slug}`}>
               <div className="bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer">
 
