@@ -1,10 +1,10 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 import PWAInstall from "@/components/PWAInstall";
+
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Footer from "@/components/Footer"; // ✅ TAMBAH INI
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,34 +16,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://komunikasi.uinsgd.ac.id"),
-
+export const metadata = {
   title: "Ilkom UIN SGD Bandung",
-
-  description:
-    "Portal resmi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung",
-
+  description: "Portal resmi Ilmu Komputer UIN Sunan Gunung Djati Bandung",
   icons: {
     icon: "/favicon-ico.ico",
   },
-
   openGraph: {
     title: "Ilkom UIN SGD",
     images: ["/og-image.png"],
   },
-
   manifest: "/manifest.json",
-
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "Ilkom UIN SGD",
-  },
-};
-
-export const viewport: Viewport = {
-  themeColor: "#ec4899",
+themeColor: "#ec4899",
+appleWebApp: {
+  capable: true,
+  statusBarStyle: "default",
+  title: "Ilkom UIN SGD",
+},
 };
 
 export default function RootLayout({
@@ -57,9 +46,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-gray-100">
-
-        {/* PWA INSTALL POPUP */}
-        <PWAInstall />
+       <PWAInstall />
+        {children}
 
         {/* NAVBAR */}
         <Navbar />
@@ -69,7 +57,7 @@ export default function RootLayout({
           {children}
         </main>
 
-        {/* FOOTER */}
+        {/* ✅ FOOTER (selalu di bawah) */}
         <Footer />
 
       </body>
