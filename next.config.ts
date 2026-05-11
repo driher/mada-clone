@@ -12,6 +12,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  async rewrites() {
+    return [
+      {
+        source: "/api-proxy/:path*",
+        destination: "https://mada.akarmusic.com/:path*",
+      },
+    ];
+  },
 };
 
 export default withPWA({
