@@ -20,9 +20,9 @@ export default async function Page() {
       <section className="max-w-6xl mx-auto px-4">
 
         {/* TITLE */}
-        <h1 className="text-2xl md:text-3xl font-bold mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">
           Berita Terbaru
-        </h1>
+        </h2>
 
         {/* GRID */}
         <div className="grid md:grid-cols-3 gap-6">
@@ -43,7 +43,7 @@ export default async function Page() {
 
                 {/* CONTENT */}
                 <div className="p-4">
-                  <h2
+                  <h5
                     className="font-semibold text-lg leading-snug line-clamp-2"
                     dangerouslySetInnerHTML={{
                       __html: post.title.rendered,

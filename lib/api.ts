@@ -46,6 +46,7 @@ async function getSingleByCategory(catId: number) {
    PROFILE
 ========================= */
 export const getKetuaJurusan = () => getSingleByCategory(45);
+export const getSekretarisJurusan = () => getSingleByCategory(67);
 export const getProdiHumas = () => getSingleByCategory(46);
 export const getProdiJurnalistik = () => getSingleByCategory(64);
 

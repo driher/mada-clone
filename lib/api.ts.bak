@@ -49,6 +49,7 @@ export const getKetuaJurusan = () => getSingleByCategory(45);
 export const getProdiHumas = () => getSingleByCategory(46);
 export const getProdiJurnalistik = () => getSingleByCategory(64);
 
+
 /* =========================
    DETIL BERITA
 ========================= */

@@ -1,4 +1,3 @@
-
 import HeroSlider from "@/components/HeroSlider";
 import PopularLinks from "@/components/PopularLinks";
 import ProfileCard from "@/components/ProfileCard";
@@ -10,6 +9,7 @@ import {
   getHeroPosts,
   getBeritaAgenda,
   getKetuaJurusan,
+  getSekretarisJurusan,
   getProdiHumas,
   getProdiJurnalistik,
 } from "@/lib/api";
@@ -21,18 +21,23 @@ export default async function Home() {
   const posts = await getBeritaAgenda().catch(() => []);
 
   const ketua = await getKetuaJurusan().catch(() => null);
+  const sekretaris = await getSekretarisJurusan().catch(() => null);
+
   const humas = await getProdiHumas().catch(() => null);
   const jurnalistik = await getProdiJurnalistik().catch(() => null);
 
   const getImage = (post: any) =>
-    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/no-image.jpg";
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+    "/no-image.jpg";
 
   const getContent = (post: any) => {
     const text = (
       post?.content?.rendered ||
       post?.excerpt?.rendered ||
       ""
-    ).replace(/<[^>]*>/g, "").trim();
+    )
+      .replace(/<[^>]*>/g, "")
+      .trim();
 
     return text.length > 300
       ? text.slice(0, 300).replace(/\s+\S*$/, "") + "..."
@@ -82,27 +87,37 @@ export default async function Home() {
           />
         )}
 
-	{humas && (
-  <ProfileCard
-    label="Ketua Prodi Humas"
-    name={humas?.title?.rendered ?? "Data belum tersedia"}
-    image={getImage(humas)}
-    content={getContent(humas)}
-    color="pink"
-  />
-)}
+        {sekretaris && (
+          <ProfileCard
+            label="Sekretaris Jurusan"
+            name={sekretaris?.title?.rendered ?? "Data belum tersedia"}
+            image={getImage(sekretaris)}
+            content={getContent(sekretaris)}
+            color="orange"
+          />
+        )}
 
-{jurnalistik && (
-  <ProfileCard
-    label="Ketua Prodi Jurnalistik"
-    name={jurnalistik?.title?.rendered ?? "Data belum tersedia"}
-    image={getImage(jurnalistik)}
-    content={getContent(jurnalistik)}
-    color="orange"
-  />
-)}
+        {humas && (
+          <ProfileCard
+            label="Ketua Prodi Humas"
+            name={humas?.title?.rendered ?? "Data belum tersedia"}
+            image={getImage(humas)}
+            content={getContent(humas)}
+            color="pink"
+          />
+        )}
 
-     </section>
+        {jurnalistik && (
+          <ProfileCard
+            label="Ketua Prodi Jurnalistik"
+            name={jurnalistik?.title?.rendered ?? "Data belum tersedia"}
+            image={getImage(jurnalistik)}
+            content={getContent(jurnalistik)}
+            color="orange"
+          />
+        )}
+
+      </section>
 
     </main>
   );

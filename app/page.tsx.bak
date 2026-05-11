@@ -1,3 +1,4 @@
+
 import HeroSlider from "@/components/HeroSlider";
 import PopularLinks from "@/components/PopularLinks";
 import ProfileCard from "@/components/ProfileCard";
@@ -13,7 +14,7 @@ import {
   getProdiJurnalistik,
 } from "@/lib/api";
 
-export const revalidate = 30; // ⭐ FIX ISR (WAJIB untuk WP)
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const heroPosts = await getHeroPosts().catch(() => []);
@@ -78,6 +79,16 @@ export default async function Home() {
             image={getImage(ketua)}
             content={getContent(ketua)}
             color="green"
+          />
+        )}
+
+	  {sekretaris && (
+          <ProfileCard
+            label="Sekretaris Jurusan"
+            name={sekretaris?.title?.rendered ?? "Data belum tersedia"}
+            image={getImage(sekretaris)}
+            content={getContent(sekretaris)}
+            color="orange"
           />
         )}
 

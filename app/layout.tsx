@@ -15,9 +15,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Ilmu Komunikasi",
-  description: "Website resmi Prodi Ilmu Komunikasi",
+export const metadata = {
+  title: "Ilkom UIN SGD Bandung",
+  description: "Portal resmi Ilmu Komputer UIN Sunan Gunung Djati Bandung",
+  icons: {
+    icon: "/favicon-ico.ico",
+  },
+  openGraph: {
+    title: "Ilkom UIN SGD",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
