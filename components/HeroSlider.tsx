@@ -49,16 +49,20 @@ export default function HeroSlider({ posts }: any) {
   };
 
   const getImage = (post: any) => {
-    let img =
-      post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  let img =
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes
+      ?.medium_large?.source_url ||
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes
+      ?.large?.source_url ||
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
 
-    if (img) img = img.replace("http://", "https://");
+  if (img) img = img.replace("http://", "https://");
 
-    return (
-      img ||
-      "https://mada.akarmusic.com/wp-content/uploads/2026/04/selamat-1-1-1140x570.jpeg"
-    );
-  };
+  return (
+    img ||
+    "https://mada.akarmusic.com/wp-content/uploads/2026/04/selamat-1-1-1140x570.jpeg"
+  );
+};
 
   if (!posts || posts.length === 0) {
     return <div className="h-[250px] bg-gray-300">No Hero</div>;
@@ -79,10 +83,12 @@ export default function HeroSlider({ posts }: any) {
       >
         {posts.map((post: any, i: number) => (
           <div key={i} className="w-full flex-shrink-0 relative">
-            <img
-              src={getImage(post)}
-              className="w-full h-[250px] md:h-[420px] object-cover"
-            />
+         <img
+  src={getImage(post)}
+  loading={i === 0 ? "eager" : "lazy"}
+  fetchPriority={i === 0 ? "high" : "low"}
+  className="w-full h-[250px] md:h-[420px] object-cover"
+/>
 
             {/* OVERLAY */}
             <div className="absolute inset-0 bg-gradient-to-r from-orange-400/60 via-pink-400/60 to-purple-500/60" />

@@ -1,9 +1,12 @@
-import HeroSlider from "@/components/HeroSlider";
+
 import PopularLinks from "@/components/PopularLinks";
 import ProfileCard from "@/components/ProfileCard";
 import AcademicAnnouncement from "@/components/AcademicAnnouncement";
-import NewsModern from "@/components/NewsModern";
-import AgendaSlider from "@/components/AgendaSlider";
+import dynamic from "next/dynamic";
+
+const HeroSlider = dynamic(() => import("@/components/HeroSlider"));
+const NewsModern = dynamic(() => import("@/components/NewsModern"));
+const AgendaSlider = dynamic(() => import("@/components/AgendaSlider"));
 
 import {
   getHeroPosts,
@@ -14,7 +17,7 @@ import {
   getProdiJurnalistik,
 } from "@/lib/api";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export default async function Home() {
   const heroPosts = await getHeroPosts().catch(() => []);
@@ -27,9 +30,10 @@ export default async function Home() {
   const jurnalistik = await getProdiJurnalistik().catch(() => null);
 
   const getImage = (post: any) =>
-    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
-    "/no-image.jpg";
-
+  post?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes?.medium
+    ?.source_url ||
+  post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+  "/no-image.jpg";
   const getContent = (post: any) => {
     const text = (
       post?.content?.rendered ||

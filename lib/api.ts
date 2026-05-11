@@ -7,7 +7,7 @@ export async function getBeritaAgenda() {
   const res = await fetch(
     `${API_URL}/posts?_embed&categories=44,63&per_page=6`,
     {
-      cache: "no-store",
+      next: { revalidate: 300 },
     }
   );
 
@@ -19,14 +19,17 @@ export async function getBeritaAgenda() {
 ========================= */
 export async function getHeroPosts() {
   const res = await fetch(
-    "https://mada.akarmusic.com/wp-json/wp/v2/posts?_embed&categories=43&per_page=5",
-    { cache: "no-store" }
+    `${API_URL}/posts?_embed&categories=43&per_page=5`,
+    {
+      next: { revalidate: 300 },
+    }
   );
 
   if (!res.ok) throw new Error("Gagal fetch hero");
 
   return res.json();
 }
+
 /* =========================
    SINGLE CATEGORY (PROFILE)
 ========================= */
@@ -34,7 +37,7 @@ async function getSingleByCategory(catId: number) {
   const res = await fetch(
     `${API_URL}/posts?_embed&categories=${catId}&per_page=1`,
     {
-      cache: "no-store",
+      next: { revalidate: 300 },
     }
   );
 
@@ -50,15 +53,15 @@ export const getSekretarisJurusan = () => getSingleByCategory(67);
 export const getProdiHumas = () => getSingleByCategory(46);
 export const getProdiJurnalistik = () => getSingleByCategory(64);
 
-
 /* =========================
    DETIL BERITA
 ========================= */
-
 export async function getPostBySlug(slug: string) {
   const res = await fetch(
-    `https://mada.akarmusic.com/wp-json/wp/v2/posts?slug=${slug}&_embed`,
-    { cache: "no-store" }
+    `${API_URL}/posts?slug=${slug}&_embed`,
+    {
+      next: { revalidate: 300 },
+    }
   );
 
   const data = await res.json();

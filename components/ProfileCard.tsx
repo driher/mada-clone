@@ -29,13 +29,15 @@ export default function ProfileCard({
 
         {/* FOTO */}
         <div className="md:w-1/3 w-full h-64 relative">
-          <Image
-            src={safeImage}
-            alt={name}
-            fill
-            className="object-cover object-top transition duration-500 hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
+         <Image
+  src={safeImage}
+  alt={name}
+  fill
+  loading="lazy"
+  className="object-cover object-top transition duration-500 hover:scale-105"
+  sizes="(max-width: 768px) 100vw, 33vw"
+/>
+      
         </div>
 
         {/* TEXT */}
