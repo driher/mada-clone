@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function Navbar() {
-  const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const menus = [
@@ -117,7 +116,7 @@ export default function Navbar() {
           ☰
         </button>
 
-        {/* DESKTOP */}
+        {/* DESKTOP MENU */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">
 
           <Link href="/" className="hover:text-orange-500">
@@ -125,32 +124,29 @@ export default function Navbar() {
           </Link>
 
           {menus.map((menu) => (
-            <div
-              key={menu.name}
-              className="relative"
-              onMouseEnter={() => setOpen(menu.name)}
-              onMouseLeave={() => setOpen(null)}
-            >
-              <div className="cursor-pointer hover:text-orange-500">
+            <div key={menu.name} className="relative group">
+
+              {/* TRIGGER */}
+              <div className="cursor-pointer hover:text-orange-500 py-2">
                 {menu.name}
               </div>
 
               {/* DROPDOWN */}
-              <div
-                className={`absolute left-0 top-full w-64 bg-white shadow-xl rounded-xl border transition-all duration-200 ${
-                  open === menu.name
-                    ? "opacity-100 scale-100"
-                    : "opacity-0 scale-95 pointer-events-none"
-                }`}
-              >
-                {/* BRIDGE AREA */}
+              <div className="
+                absolute left-0 top-full w-64 bg-white shadow-xl rounded-xl border z-50
+                invisible opacity-0 translate-y-3
+                transition-all duration-300 ease-out
+                group-hover:visible group-hover:opacity-100 group-hover:translate-y-0
+              ">
+
+                {/* BRIDGE AREA (biar hover tidak putus) */}
                 <div className="absolute -top-3 left-0 w-full h-3"></div>
 
                 {menu.items.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="block px-4 py-2 text-sm hover:bg-orange-50 hover:text-orange-600"
+                    className="block px-4 py-2 text-sm hover:bg-orange-50 hover:text-orange-600 transition-all duration-200 hover:translate-x-1"
                   >
                     {item.label}
                   </Link>
@@ -161,7 +157,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE */}
+      {/* MOBILE MENU */}
       {mobileOpen && (
         <div className="md:hidden bg-white border-t px-4 pb-4">
 
