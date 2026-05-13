@@ -60,7 +60,7 @@ export default function HeroSlider({ posts }: any) {
 
   return (
     img ||
-    "https://mada.akarmusic.com/wp-content/uploads/2026/04/selamat-1-1-1140x570.jpeg"
+    "https://cms.komunikasi.uinsgd.ac.id/wp-content/uploads/2026/04/selamat-1-1-1140x570.jpeg"
   );
 };
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 async function getPengumuman() {
   try {
     const res = await fetch(
-      "https://mada.akarmusic.com/wp-json/wp/v2/posts?categories=65&_embed&per_page=1",
+      "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=65&_embed&per_page=1",
       { cache: "no-store" }
     );
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 async function getCategories() {
   const res = await fetch(
-    "https://mada.akarmusic.com/wp-json/wp/v2/categories",
+    "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/categories",
     { cache: "no-store" }
   );
 

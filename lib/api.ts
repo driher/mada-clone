@@ -1,4 +1,4 @@
-const API_URL = "https://mada.akarmusic.com/wp-json/wp/v2";
+const API_URL = "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2";
 
 /* =========================
    BERITA + AGENDA

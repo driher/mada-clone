@@ -12,7 +12,7 @@ export default async function Page({
   try {
     // FETCH POST
     const res = await fetch(
-      `https://mada.akarmusic.com/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+      `https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?slug=${slug}&_embed`,
       { next: { revalidate: 60 } }
     );
 

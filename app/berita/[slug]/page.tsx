@@ -7,7 +7,7 @@ export default async function Page({
 
   // DETAIL POST
   const res = await fetch(
-    `https://mada.akarmusic.com/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+    `https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?slug=${slug}&_embed`,
     { cache: "no-store" }
   );
 
@@ -16,7 +16,7 @@ export default async function Page({
 
   // RELATED POSTS
   const relatedRes = await fetch(
-    `https://mada.akarmusic.com/wp-json/wp/v2/posts?categories=44&_embed&per_page=6`,
+    `https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=44&_embed&per_page=6`,
     { cache: "no-store" }
   );
 

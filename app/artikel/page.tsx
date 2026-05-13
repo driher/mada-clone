@@ -5,7 +5,7 @@ export const revalidate = 60;
 
 export default async function Page() {
   const res = await fetch(
-    "https://mada.akarmusic.com/wp-json/wp/v2/posts?categories=66&_embed&per_page=9",
+    "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=66&_embed&per_page=9",
     { next: { revalidate: 60 } }
   );
 

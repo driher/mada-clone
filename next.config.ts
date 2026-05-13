@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api-proxy/:path*",
-        destination: "https://mada.akarmusic.com/:path*",
+        destination: "https://cms.komunikasi.uinsgd.ac.id/:path*",
       },
     ];
   },

@@ -1,4 +1,4 @@
-const BASE_URL = "https://mada.akarmusic.com/wp-json/wp/v2";
+const BASE_URL = "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2";
 
 export async function fetcher<T>(
   endpoint: string,

@@ -9,7 +9,7 @@ export default function AgendaSlider() {
 
   useEffect(() => {
     fetch(
-      "https://mada.akarmusic.com/wp-json/wp/v2/posts?categories=63&_embed&per_page=8"
+      "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=63&_embed&per_page=8"
     )
       .then((res) => res.json())
       .then((data) => {
