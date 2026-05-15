@@ -82,7 +82,7 @@ export default function HeroSlider({ posts }: any) {
   // EMPTY
   if (!heroPosts || length === 0) {
     return (
-      <div className="h-[260px] md:h-[540px] bg-gray-300 flex items-center justify-center">
+      <div className="h-[260px] md:h-[500px] bg-gray-300 flex items-center justify-center">
         No Hero
       </div>
     );
@@ -90,7 +90,7 @@ export default function HeroSlider({ posts }: any) {
 
   return (
     <div
-      className="relative w-full h-[260px] md:h-[540px]  overflow-hidden"
+      className="relative w-full h-[260px] md:h-[500px] overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -98,13 +98,17 @@ export default function HeroSlider({ posts }: any) {
       <div
         className="flex h-full transition-transform duration-700 ease-in-out"
         style={{
-          transform: `translateX(-${index * 100}%)`,
+          width: `${length * 100}%`,
+          transform: `translateX(-${index * (100 / length)}%)`,
         }}
       >
         {heroPosts.map((post: any, i: number) => (
           <div
             key={i}
-            className="w-full h-full flex-shrink-0"
+            className="h-full flex-shrink-0"
+            style={{
+              width: `${100 / length}%`,
+            }}
           >
             <img
               src={getImage(post)}
@@ -125,7 +129,7 @@ export default function HeroSlider({ posts }: any) {
       {length > 1 && (
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white px-4 py-2 rounded-full"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white px-4 py-2 rounded-full transition"
         >
           {"<"}
         </button>
@@ -135,7 +139,7 @@ export default function HeroSlider({ posts }: any) {
       {length > 1 && (
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white px-4 py-2 rounded-full"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white px-4 py-2 rounded-full transition"
         >
           {">"}
         </button>

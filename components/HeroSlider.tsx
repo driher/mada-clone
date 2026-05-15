@@ -82,7 +82,7 @@ export default function HeroSlider({ posts }: any) {
   // EMPTY
   if (!heroPosts || length === 0) {
     return (
-      <div className="h-[260px] md:h-[500px] bg-gray-300 flex items-center justify-center">
+      <div className="h-[2450px] md:h-[500px] bg-gray-300 flex items-center justify-center">
         No Hero
       </div>
     );
@@ -90,7 +90,7 @@ export default function HeroSlider({ posts }: any) {
 
   return (
     <div
-      className="relative w-full h-[260px] md:h-[500px] overflow-hidden"
+      className="relative w-full h-[245px] md:h-[500px] overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
