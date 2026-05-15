@@ -40,6 +40,7 @@ export default function Navbar() {
         { label: "Berita Prodi", href: "/kegiatan" },
 	{ label: "Artikel Ilmiah", href: "/artikel" },
         { label: "Opini Mahasiswa", href: "/opini" },
+        { label: "Mahasisws Berprestasi", href: "/category/prestasi" },
       ],
     },
     {
@@ -64,8 +65,8 @@ export default function Navbar() {
       items: [
         { label: "Mahasiswa Berprestasi", href: "/mahasiswa/prestasi" },
         { label: "Karya Mahasiswa", href: "/mahasiswa/karya" },
+        { label: "Testimoni Alumni", href: "/alumni/testimoni" },
         { label: "Jejak Alumni", href: "/alumni/karir" },
-	{ label: "Testimoni Alumni", href: "/alumni/testimoni" },
       ],
     },
     {
