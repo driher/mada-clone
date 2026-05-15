@@ -46,7 +46,11 @@ export default async function AcademicAnnouncement() {
 
         {/* TEXT */}
         <div>
-           <h2
+          <h2 className="text-3xl font-bold mb-4">
+            Pengumuman Akademik
+          </h2>
+
+          <h3
             className="text-lg font-semibold mb-3"
             dangerouslySetInnerHTML={{
               __html: post.title.rendered,

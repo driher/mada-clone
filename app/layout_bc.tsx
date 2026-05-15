@@ -18,14 +18,23 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://komunikasi.uinsgd.ac.id"),
+
   title: "Ilkom UIN SGD Bandung",
-  description: "Portal resmi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung",
-  icons: { icon: "/favicon-ico.ico" },
+
+  description:
+    "Portal resmi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung",
+
+  icons: {
+    icon: "/favicon-ico.ico",
+  },
+
   openGraph: {
     title: "Ilkom UIN SGD",
     images: ["/og-image.png"],
   },
+
   manifest: "/manifest.json",
+
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -39,33 +48,47 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="id"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-screen flex flex-col bg-gray-100">
+
+        {/* PWA INSTALL POPUP */}
+        <PWAInstall />
+
+        {/* NAVBAR */}
+        <Navbar />
+
+        {/* CONTENT */}
+        <main className="flex-1">
+          {children}
+        </main>
+
+        {/* FOOTER */}
+        <Footer />
+
+      </body>
+    </html>
+  );
+}
+export default function RootLayout({
+  children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-    >
-      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+    <html lang="id">
+      <body className="bg-slate-50 text-slate-900">
 
-        {/* PWA */}
-        <PWAInstall />
-
-        {/* NAVBAR FULL WIDTH */}
-        <Navbar />
-
-        {/* 🔥 CONTENT AREA (90% + SHADOW FRAME) */}
-        <div className="flex-1">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="bg-white shadow-xl shadow-black/5 rounded-2xl border border-slate-100 overflow-hidden">
-              {children}
-            </div>
-          </div>
+        {/* 🔥 CONTAINER UTAMA 80% STYLE */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          {children}
         </div>
-
-        {/* FOOTER FULL WIDTH */}
-        <Footer />
 
       </body>
     </html>
