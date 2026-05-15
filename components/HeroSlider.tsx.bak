@@ -7,7 +7,7 @@ export default function HeroSlider({ posts }: any) {
 
   const startX = useRef(0);
 
-  // batasi maksimal 10 slide
+  // maksimal 10 slide
   const heroPosts = posts?.slice(0, 10) || [];
 
   const length = heroPosts.length;
@@ -17,37 +17,50 @@ export default function HeroSlider({ posts }: any) {
     if (length <= 1) return;
 
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % length);
+      setIndex((prev) => {
+        if (prev >= length - 1) return 0;
+        return prev + 1;
+      });
     }, 4000);
 
     return () => clearInterval(interval);
   }, [length]);
 
-  // NAVIGATION
+  // NEXT
   const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % length);
+    setIndex((prev) => {
+      if (prev >= length - 1) return 0;
+      return prev + 1;
+    });
   };
 
+  // PREV
   const prevSlide = () => {
-    setIndex((prev) => (prev - 1 + length) % length);
+    setIndex((prev) => {
+      if (prev <= 0) return length - 1;
+      return prev - 1;
+    });
   };
 
-  // SWIPE
+  // TOUCH START
   const handleTouchStart = (e: any) => {
     startX.current = e.touches[0].clientX;
   };
 
+  // TOUCH END
   const handleTouchEnd = (e: any) => {
     const endX = e.changedTouches[0].clientX;
 
     if (startX.current - endX > 50) {
       nextSlide();
-    } else if (endX - startX.current > 50) {
+    }
+
+    if (endX - startX.current > 50) {
       prevSlide();
     }
   };
 
-  // IMAGE
+  // GET IMAGE
   const getImage = (post: any) => {
     let img =
       post?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes
@@ -69,7 +82,7 @@ export default function HeroSlider({ posts }: any) {
   // EMPTY
   if (!heroPosts || length === 0) {
     return (
-      <div className="h-[350px] md:h-[620px] bg-gray-300 flex items-center justify-center">
+      <div className="h-[290px] md:h-[520px] bg-gray-300 flex items-center justify-center">
         No Hero
       </div>
     );
@@ -77,23 +90,21 @@ export default function HeroSlider({ posts }: any) {
 
   return (
     <div
-      className="relative w-full h-[350px] md:h-[620px] overflow-hidden"
+      className="relative w-full h-[290px] md:h-[520px]  overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* SLIDES */}
+      {/* SLIDER */}
       <div
         className="flex h-full transition-transform duration-700 ease-in-out"
         style={{
-          width: `${length * 100}%`,
-          transform: `translateX(-${index * (100 / length)}%)`,
+          transform: `translateX(-${index * 100}%)`,
         }}
       >
         {heroPosts.map((post: any, i: number) => (
           <div
             key={i}
-            className="relative h-full"
-            style={{ width: `${100 / length}%` }}
+            className="w-full h-full flex-shrink-0"
           >
             <img
               src={getImage(post)}
@@ -114,7 +125,7 @@ export default function HeroSlider({ posts }: any) {
       {length > 1 && (
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white px-4 py-2 rounded-full transition"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white px-4 py-2 rounded-full"
         >
           {"<"}
         </button>
@@ -124,7 +135,7 @@ export default function HeroSlider({ posts }: any) {
       {length > 1 && (
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white px-4 py-2 rounded-full transition"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white px-4 py-2 rounded-full"
         >
           {">"}
         </button>
@@ -137,7 +148,7 @@ export default function HeroSlider({ posts }: any) {
             <button
               key={i}
               onClick={() => setIndex(i)}
-              className={`w-2.5 h-2.5 rounded-full transition-all ${
+              className={`w-3 h-3 rounded-full transition-all ${
                 i === index
                   ? "bg-white scale-110"
                   : "bg-white/50"
