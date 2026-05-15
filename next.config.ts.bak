@@ -4,24 +4,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   turbopack: {},
 
+  allowedDevOrigins: ["localhost"],
+
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "cms.komunikasi.uinsgd.ac.id",
       },
     ],
-  },
-
-  async rewrites() {
-    return [
-      {
-        source: "/api-proxy/:path*",
-        destination: "https://cms.komunikasi.uinsgd.ac.id/:path*",
-	protocol: "https",
-        hostname: "photosspeak.net",
-      },
-    ];
   },
 };
 
