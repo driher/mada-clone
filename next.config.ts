@@ -23,6 +23,23 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  // ✅ TAMBAHAN REDIRECT VERCEL → DOMAIN UTAMA
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "mada-clone.vercel.app",
+          },
+        ],
+        destination: "https://komunikasi.uinsgd.ac.id/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withPWA({

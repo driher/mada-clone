@@ -7,6 +7,7 @@ import { useState } from "react";
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // 🔽 MENU DROPDOWN SAJA
   const menus = [
     {
       name: "Profil",
@@ -34,48 +35,12 @@ export default function Navbar() {
       ],
     },
     {
-      name: "Berita",
-      items: [
-        { label: "Berita Kampus", href: "/berita" },
-        { label: "Berita Prodi", href: "/kegiatan" },
-	{ label: "Artikel Ilmiah", href: "/artikel" },
-        { label: "Opini Mahasiswa", href: "/opini" },
-        { label: "Mahasisws Berprestasi", href: "/category/prestasi" },
-      ],
-    },
-    {
-      name: "Agenda",
-      items: [
-        { label: "Event Mendatang", href: "/agenda" },
-        { label: "Event Berlangsung", href: "/agenda/berlangsung" },
-        { label: "Arsip Kegiatan", href: "/agenda/arsip" },
-      ],
-    },
-    {
       name: "Pengumuman",
       items: [
         { label: "Pengumuman Akademik", href: "/pengumuman/akademik" },
         { label: "Pengumuman Umum", href: "/pengumuman" },
         { label: "Beasiswa", href: "/pengumuman/beasiswa" },
         { label: "Lowongan / Magang", href: "/pengumuman/karir" },
-      ],
-    },
-    {
-      name: "Mahasiswa",
-      items: [
-        { label: "Mahasiswa Berprestasi", href: "/mahasiswa/prestasi" },
-        { label: "Karya Mahasiswa", href: "/mahasiswa/karya" },
-        { label: "Testimoni Alumni", href: "/alumni/testimoni" },
-        { label: "Jejak Alumni", href: "/alumni/karir" },
-      ],
-    },
-    {
-      name: "Penelitian",
-      items: [
-        { label: "Jurnal Ilmiah", href: "/penelitian/jurnal" },
-        { label: "Penelitian Dosen", href: "/penelitian/dosen" },
-        { label: "Repository", href: "/penelitian/repository" },
-        { label: "Pengabdian Masyarakat", href: "/penelitian/pkm" },
       ],
     },
     {
@@ -95,6 +60,15 @@ export default function Navbar() {
         { label: "Dokumen Penting", href: "/download/dokumen" },
       ],
     },
+  ];
+
+  // 🔽 MENU LINK LANGSUNG (TANPA DROPDOWN)
+  const directLinks = [
+    { name: "Berita", href: "/berita" },
+    { name: "Agenda", href: "/agenda" },
+    { name: "Mahasiswa", href: "/mahasiswa" },
+    { name: "Penelitian", href: "/penelitian" },
+    { name: "Alumni", href: "/alumni/karir" },
   ];
 
   return (
@@ -121,23 +95,31 @@ export default function Navbar() {
             Home
           </Link>
 
+          {/* LINK LANGSUNG */}
+          {directLinks.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="hover:text-orange-500"
+            >
+              {item.name}
+            </Link>
+          ))}
+
+          {/* DROPDOWN MENU */}
           {menus.map((menu) => (
             <div key={menu.name} className="relative group">
 
-              {/* TRIGGER */}
               <div className="cursor-pointer hover:text-orange-500 py-2">
                 {menu.name}
               </div>
 
-              {/* DROPDOWN */}
               <div className="
                 absolute left-0 top-full w-64 bg-white shadow-xl rounded-xl border z-50
                 invisible opacity-0 translate-y-3
                 transition-all duration-300 ease-out
                 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0
               ">
-
-                {/* BRIDGE AREA (biar hover tidak putus) */}
                 <div className="absolute -top-3 left-0 w-full h-3"></div>
 
                 {menu.items.map((item) => (
@@ -167,6 +149,19 @@ export default function Navbar() {
             Home
           </Link>
 
+          {/* MOBILE DIRECT LINKS */}
+          {directLinks.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="block py-2 font-medium border-b"
+              onClick={() => setMobileOpen(false)}
+            >
+              {item.name}
+            </Link>
+          ))}
+
+          {/* MOBILE DROPDOWN */}
           {menus.map((menu) => (
             <div key={menu.name} className="border-b py-2">
               <p className="font-medium">{menu.name}</p>

@@ -7,6 +7,7 @@ import { useState } from "react";
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // DROPDOWN MENU
   const menus = [
     {
       name: "Profil",
@@ -34,47 +35,12 @@ export default function Navbar() {
       ],
     },
     {
-      name: "Berita",
-      items: [
-        { label: "Berita Kampus", href: "/berita" },
-        { label: "Berita Prodi", href: "/kegiatan" },
-	{ label: "Artikel Ilmiah", href: "/artikel" },
-        { label: "Opini Mahasiswa", href: "/opini" },
-      ],
-    },
-    {
-      name: "Agenda",
-      items: [
-        { label: "Event Mendatang", href: "/agenda" },
-        { label: "Event Berlangsung", href: "/agenda/berlangsung" },
-        { label: "Arsip Kegiatan", href: "/agenda/arsip" },
-      ],
-    },
-    {
       name: "Pengumuman",
       items: [
         { label: "Pengumuman Akademik", href: "/pengumuman/akademik" },
         { label: "Pengumuman Umum", href: "/pengumuman" },
         { label: "Beasiswa", href: "/pengumuman/beasiswa" },
         { label: "Lowongan / Magang", href: "/pengumuman/karir" },
-      ],
-    },
-    {
-      name: "Mahasiswa",
-      items: [
-        { label: "Mahasiswa Berprestasi", href: "/mahasiswa/prestasi" },
-        { label: "Karya Mahasiswa", href: "/mahasiswa/karya" },
-        { label: "Jejak Alumni", href: "/alumni/karir" },
-	{ label: "Testimoni Alumni", href: "/alumni/testimoni" },
-      ],
-    },
-    {
-      name: "Penelitian",
-      items: [
-        { label: "Jurnal Ilmiah", href: "/penelitian/jurnal" },
-        { label: "Penelitian Dosen", href: "/penelitian/dosen" },
-        { label: "Repository", href: "/penelitian/repository" },
-        { label: "Pengabdian Masyarakat", href: "/penelitian/pkm" },
       ],
     },
     {
@@ -94,6 +60,15 @@ export default function Navbar() {
         { label: "Dokumen Penting", href: "/download/dokumen" },
       ],
     },
+  ];
+
+  // LINK LANGSUNG
+  const directLinks = [
+    { name: "Berita", href: "/berita" },
+    { name: "Agenda", href: "/agenda" },
+    { name: "Mahasiswa", href: "/mahasiswa" },
+    { name: "Penelitian", href: "/penelitian" },
+    { name: "Alumni", href: "/alumni/karir" },
   ];
 
   return (
@@ -116,34 +91,70 @@ export default function Navbar() {
         {/* DESKTOP MENU */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">
 
+          {/* HOME */}
           <Link href="/" className="hover:text-orange-500">
             Home
           </Link>
 
-          {menus.map((menu) => (
+          {/* PROFIL + AKADEMIK (URUT SETELAH HOME) */}
+          {menus.slice(0, 2).map((menu) => (
             <div key={menu.name} className="relative group">
-
-              {/* TRIGGER */}
               <div className="cursor-pointer hover:text-orange-500 py-2">
                 {menu.name}
               </div>
 
-              {/* DROPDOWN */}
               <div className="
                 absolute left-0 top-full w-64 bg-white shadow-xl rounded-xl border z-50
                 invisible opacity-0 translate-y-3
                 transition-all duration-300 ease-out
                 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0
               ">
-
-                {/* BRIDGE AREA (biar hover tidak putus) */}
                 <div className="absolute -top-3 left-0 w-full h-3"></div>
 
                 {menu.items.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="block px-4 py-2 text-sm hover:bg-orange-50 hover:text-orange-600 transition-all duration-200 hover:translate-x-1"
+                    className="block px-4 py-2 text-sm hover:bg-orange-50 hover:text-orange-600"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {/* LINK LANGSUNG */}
+          {directLinks.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="hover:text-orange-500"
+            >
+              {item.name}
+            </Link>
+          ))}
+
+          {/* SISA DROPDOWN */}
+          {menus.slice(2).map((menu) => (
+            <div key={menu.name} className="relative group">
+              <div className="cursor-pointer hover:text-orange-500 py-2">
+                {menu.name}
+              </div>
+
+              <div className="
+                absolute left-0 top-full w-64 bg-white shadow-xl rounded-xl border z-50
+                invisible opacity-0 translate-y-3
+                transition-all duration-300 ease-out
+                group-hover:visible group-hover:opacity-100 group-hover:translate-y-0
+              ">
+                <div className="absolute -top-3 left-0 w-full h-3"></div>
+
+                {menu.items.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className="block px-4 py-2 text-sm hover:bg-orange-50 hover:text-orange-600"
                   >
                     {item.label}
                   </Link>
@@ -166,10 +177,41 @@ export default function Navbar() {
             Home
           </Link>
 
-          {menus.map((menu) => (
+          {/* MOBILE PROFIL + AKADEMIK */}
+          {menus.slice(0, 2).map((menu) => (
             <div key={menu.name} className="border-b py-2">
               <p className="font-medium">{menu.name}</p>
+              <div className="pl-3 mt-1">
+                {menu.items.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className="block py-1 text-sm text-gray-600 hover:text-orange-500"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
 
+          {/* MOBILE DIRECT LINKS */}
+          {directLinks.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="block py-2 font-medium border-b"
+              onClick={() => setMobileOpen(false)}
+            >
+              {item.name}
+            </Link>
+          ))}
+
+          {/* MOBILE DROPDOWN LAINNYA */}
+          {menus.slice(2).map((menu) => (
+            <div key={menu.name} className="border-b py-2">
+              <p className="font-medium">{menu.name}</p>
               <div className="pl-3 mt-1">
                 {menu.items.map((item) => (
                   <Link
