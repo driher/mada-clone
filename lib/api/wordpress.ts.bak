@@ -5,7 +5,7 @@ const first = (data: any) => data?.[0] || null;
 
 // HERO
 export const getHeroPosts = async () => {
-  return await fetcher("/posts?categories=10&_embed&per_page=10");
+  return await fetcher("/posts?categories=10&_embed&per_page=5");
 };
 
 // BERITA
