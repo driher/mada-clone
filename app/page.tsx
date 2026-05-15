@@ -1,4 +1,3 @@
-
 import PopularLinks from "@/components/PopularLinks";
 import ProfileCard from "@/components/ProfileCard";
 import AcademicAnnouncement from "@/components/AcademicAnnouncement";
@@ -10,7 +9,6 @@ const AgendaSlider = dynamic(() => import("@/components/AgendaSlider"));
 
 import {
   getHeroPosts,
-  getBeritaAgenda,
   getKetuaJurusan,
   getSekretarisJurusan,
   getProdiHumas,
@@ -21,19 +19,32 @@ export const revalidate = 300;
 
 export default async function Home() {
   const heroPosts = await getHeroPosts().catch(() => []);
-  const posts = await getBeritaAgenda().catch(() => []);
+
+  // ✅ BERITA (kategori 44)
+  const beritaRes = await fetch(
+    "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?_embed&per_page=6&categories=44",
+    { next: { revalidate: 300 } }
+  );
+  const beritaPosts = await beritaRes.json().catch(() => []);
+
+  // ✅ AGENDA (kategori 63)
+  const agendaRes = await fetch(
+    "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?_embed&per_page=10&categories=63",
+    { next: { revalidate: 300 } }
+  );
+  const agendaPosts = await agendaRes.json().catch(() => []);
 
   const ketua = await getKetuaJurusan().catch(() => null);
   const sekretaris = await getSekretarisJurusan().catch(() => null);
-
   const humas = await getProdiHumas().catch(() => null);
   const jurnalistik = await getProdiJurnalistik().catch(() => null);
 
   const getImage = (post: any) =>
-  post?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes?.medium
-    ?.source_url ||
-  post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
-  "/no-image.jpg";
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes?.medium
+      ?.source_url ||
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+    "/no-image.jpg";
+
   const getContent = (post: any) => {
     const text = (
       post?.content?.rendered ||
@@ -49,26 +60,48 @@ export default async function Home() {
   };
 
   return (
-    <main className="bg-gray-100 min-h-screen">
+    <main className="bg-gradient-to-b from-slate-50 to-white min-h-screen">
 
       {/* HERO */}
       <section className="mb-10">
         <HeroSlider posts={heroPosts} />
       </section>
 
-      {/* BERITA */}
-      <section className="mb-12">
-        <div className="max-w-6xl mx-auto px-4">
-          <NewsModern posts={posts} />
+      {/* BERITA (FIXED ✔) */}
+      <section className="mb-14">
+       <div className="max-w-6xl mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            📰 Berita Terbaru
+          </h2>
+          <p className="text-gray-500 mt-2">
+            Informasi dan kabar terbaru seputar kegiatan dan akademik
+          </p>
+          <NewsModern posts={beritaPosts} />
         </div>
       </section>
 
-      {/* AGENDA */}
-      <section className="mb-12">
-        <AgendaSlider />
+      {/* AGENDA SLIDER (CATEGORY 63) */}
+      <section className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100">
+
+        <div className="max-w-6xl mx-auto px-4 mb-6">
+
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+            📅 Agenda & Kegiatan
+          </h2>
+
+          <p className="text-slate-500 mt-1">
+            Informasi kegiatan terbaru program studi
+          </p>
+
+          <div className="w-20 h-1 bg-blue-600 rounded-full mt-3" />
+
+        </div>
+
+        <AgendaSlider posts={agendaPosts} />
+
       </section>
 
-      {/* PENGUMUMAN */}
+      {/* ANNOUNCEMENT */}
       <AcademicAnnouncement />
 
       {/* LINKS */}

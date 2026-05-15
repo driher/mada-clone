@@ -35,15 +35,6 @@ export default function Navbar() {
       ],
     },
     {
-      name: "Pengumuman",
-      items: [
-        { label: "Pengumuman Akademik", href: "/pengumuman/akademik" },
-        { label: "Pengumuman Umum", href: "/pengumuman" },
-        { label: "Beasiswa", href: "/pengumuman/beasiswa" },
-        { label: "Lowongan / Magang", href: "/pengumuman/karir" },
-      ],
-    },
-    {
       name: "Galeri",
       items: [
         { label: "Foto Kegiatan", href: "/galeri/foto" },
@@ -51,16 +42,8 @@ export default function Navbar() {
         { label: "Media Coverage", href: "/galeri/media" },
       ],
     },
-    {
-      name: "Download",
-      items: [
-        { label: "Form Akademik", href: "/download/form" },
-        { label: "Panduan Skripsi", href: "/download/skripsi" },
-        { label: "Template Proposal", href: "/download/template" },
-        { label: "Dokumen Penting", href: "/download/dokumen" },
-      ],
-    },
-  ];
+   
+   ];
 
   // LINK LANGSUNG
   const directLinks = [
@@ -68,7 +51,9 @@ export default function Navbar() {
     { name: "Agenda", href: "/agenda" },
     { name: "Mahasiswa", href: "/mahasiswa" },
     { name: "Penelitian", href: "/penelitian" },
-    { name: "Alumni", href: "/alumni/karir" },
+    { name: "Alumni", href: "/alumni" },
+    { name: "Pengumuman", href: "pengumuman" },
+    { name: "Download", href: "/download" },
   ];
 
   return (

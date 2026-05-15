@@ -1,0 +1,106 @@
+const API_URL = "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2";
+
+/* =========================
+   BERITA (kategori 44)
+========================= */
+export async function getBerita() {
+  try {
+    const res = await fetch(
+      `${API_URL}/posts?_embed&categories=44&per_page=6`,
+      { next: { revalidate: 300 } }
+    );
+
+    if (!res.ok) return [];
+
+    return await res.json();
+  } catch (error) {
+    console.error("getBerita error:", error);
+    return [];
+  }
+}
+
+/* =========================
+   AGENDA (kategori 63)
+========================= */
+export async function getAgenda() {
+  try {
+    const res = await fetch(
+      `${API_URL}/posts?_embed&categories=63&per_page=6`,
+      { next: { revalidate: 300 } }
+    );
+
+    if (!res.ok) return [];
+
+    return await res.json();
+  } catch (error) {
+    console.error("getAgenda error:", error);
+    return [];
+  }
+}
+
+/* =========================
+   HERO (kategori 43)
+========================= */
+export async function getHeroPosts() {
+  try {
+    const res = await fetch(
+      `${API_URL}/posts?_embed&categories=43&per_page=5`,
+      { next: { revalidate: 300 } }
+    );
+
+    if (!res.ok) return [];
+
+    return await res.json();
+  } catch (error) {
+    console.error("getHeroPosts error:", error);
+    return [];
+  }
+}
+
+/* =========================
+   SINGLE CATEGORY (PROFILE SAFE)
+========================= */
+async function getSingleByCategory(catId: number) {
+  try {
+    const res = await fetch(
+      `${API_URL}/posts?_embed&categories=${catId}&per_page=1`,
+      { next: { revalidate: 300 } }
+    );
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data?.[0] || null;
+  } catch (error) {
+    console.error("getSingleByCategory error:", error);
+    return null;
+  }
+}
+
+/* =========================
+   PROFILE
+========================= */
+export const getKetuaJurusan = () => getSingleByCategory(45);
+export const getSekretarisJurusan = () => getSingleByCategory(67);
+export const getProdiHumas = () => getSingleByCategory(46);
+export const getProdiJurnalistik = () => getSingleByCategory(64);
+
+/* =========================
+   SINGLE POST BY SLUG
+========================= */
+export async function getPostBySlug(slug: string) {
+  try {
+    const res = await fetch(
+      `${API_URL}/posts?slug=${slug}&_embed`,
+      { next: { revalidate: 300 } }
+    );
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data?.[0] || null;
+  } catch (error) {
+    console.error("getPostBySlug error:", error);
+    return null;
+  }
+}
