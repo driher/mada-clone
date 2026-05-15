@@ -5,7 +5,7 @@ export const revalidate = 60;
 
 export default async function Page() {
   const res = await fetch(
-    "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=44&_embed&per_page=9",
+    "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=82&_embed&per_page=9",
     { next: { revalidate: 60 } }
   );
 
@@ -22,10 +22,10 @@ export default async function Page() {
         {/* HEADER */}
         <div className="mb-10">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            📰 Berita Terbaru
+            📰 Download
           </h2>
           <p className="text-gray-500 mt-2">
-            Informasi dan kabar terbaru seputar kegiatan dan akademik
+            Download file penting
           </p>
 
           <div className="w-20 h-1 bg-orange-500 mt-4 rounded-full" />
