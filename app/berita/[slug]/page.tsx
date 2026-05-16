@@ -128,6 +128,18 @@ export default async function Page({
           dangerouslySetInnerHTML={{ __html: post.title.rendered }}
         />
 
+      {/* ================= HARI TANGGAL ================= */}
+<div className="mt-2 mb-4 text-sm text-gray-500 flex items-center gap-2">
+  <span>
+    {new Date(post.date).toLocaleDateString("id-ID", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })}
+  </span>
+</div>
+
         {/* ================= SHARE (DESKTOP + MOBILE RESPONSIVE) ================= */}
         <div className="flex items-center gap-3 mb-6 flex-wrap">
 
@@ -278,43 +290,71 @@ export default async function Page({
       </div>
 
       {/* ================= RELATED ================= */}
-      <section className="max-w-6xl mx-auto mt-20 px-4">
-        <h4 className="text-xl md:text-2xl font-bold border-l-4 border-cyan-600 pl-4 mb-8">
-          Baca Juga:
-        </h4>
+     {/* BACA JUGA */}
+<section className="max-w-6xl mx-auto mt-20 px-4">
+  <div className="flex items-center justify-between mb-8">
+    <h4 className="text-xl md:text-2xl font-bold border-l-4 border-cyan-600 pl-4">
+      Baca Juga Berita Lainnya
+    </h4>
+  </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {relatedPosts
-            ?.filter((item: any) => item.slug !== slug)
-            ?.slice(0, 6)
-            ?.map((item: any) => {
-              const thumb =
-                item?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {relatedPosts
+      ?.filter((item: any) => item.slug !== slug)
+      ?.slice(0, 6)
+      ?.map((item: any) => {
+        const thumb =
+          item?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
 
-              return (
-                <a
-                  key={item.id}
-                  href={`/berita/${item.slug}`}
-                  className="block rounded-2xl overflow-hidden bg-white hover:-translate-y-1 transition"
-                >
-                  <img
-                    src={thumb || image}
-                    className="w-full h-[260px] object-cover"
-                  />
+        return (
+          <a
+            key={item.id}
+            href={`/berita/${item.slug}`}
+            className="group block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+          >
+            {/* IMAGE */}
+            <div className="relative overflow-hidden">
+              {thumb ? (
+                <img
+                  src={thumb}
+                  alt={item.title.rendered}
+                  className="w-full h-[200px] object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              ) : (
+                <div className="w-full h-[200px] bg-gray-200" />
+              )}
 
-                  <div className="p-4">
-                    <h5
-                      className="font-bold line-clamp-2"
-                      dangerouslySetInnerHTML={{
-                        __html: item.title.rendered,
-                      }}
-                    />
-                  </div>
-                </a>
-              );
-            })}
-        </div>
-      </section>
+              {/* overlay gradient biar lebih elegan */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+            </div>
+
+            {/* CONTENT */}
+            <div className="p-4 space-y-3">
+              <span className="inline-block bg-cyan-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                Berita
+              </span>
+
+              <h5
+                className="font-bold text-[16px] leading-snug line-clamp-2 text-gray-900 group-hover:text-cyan-700 transition-colors"
+                dangerouslySetInnerHTML={{
+                  __html: item.title.rendered,
+                }}
+              />
+
+              <div className="text-xs text-gray-500">
+                {new Date(item.date).toLocaleDateString("id-ID", {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </div>
+            </div>
+          </a>
+        );
+      })}
+  </div>
+</section>
     </article>
   );
 }
