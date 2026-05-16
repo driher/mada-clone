@@ -252,7 +252,7 @@ export default async function Page({
           className="w-full rounded-xl mb-6"
         />
 
-        {/* CONTENT */}
+        {/*    CONTENT   */}
       <div
           className="
             text-gray-700 leading-relaxed
@@ -315,8 +315,6 @@ export default async function Page({
             })}
         </div>
       </section>
-
-
     </article>
   );
 }
