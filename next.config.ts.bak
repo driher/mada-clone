@@ -6,11 +6,11 @@ const nextConfig: NextConfig = {
 
   allowedDevOrigins: ["localhost"],
 
-images: {
+  images: {
   remotePatterns: [
     {
       protocol: "https",
-      hostname: "cms.komunikasi.uinsgd.ac.id",
+      hostname: "**",
     },
   ],
 },

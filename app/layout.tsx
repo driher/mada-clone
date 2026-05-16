@@ -52,19 +52,23 @@ export default function RootLayout({
         {/* PWA */}
         <PWAInstall />
 
-        {/* NAVBAR FULL WIDTH */}
+        {/* NAVBAR */}
         <Navbar />
 
-        {/* 🔥 CONTENT AREA (90% + SHADOW FRAME) */}
-        <div className="flex-1">
+        {/* CONTENT */}
+        <main className="flex-1">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+            {/* hanya frame halaman, bisa dihapus kalau mau full width */}
             <div className="bg-white shadow-xl shadow-black/5 rounded-2xl border border-slate-100 overflow-hidden">
+
               {children}
+
             </div>
           </div>
-        </div>
+        </main>
 
-        {/* FOOTER FULL WIDTH */}
+        {/* FOOTER */}
         <Footer />
 
       </body>

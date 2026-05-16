@@ -25,7 +25,7 @@ export default async function Page({
   if (!post) {
     return (
       <div className="p-6">
-        <h1 className="text-xl font-bold">Konten tidak ditemukan</h1>
+        <h1 className="text-xl font-bold">Berita tidak ditemukan</h1>
       </div>
     );
   }
