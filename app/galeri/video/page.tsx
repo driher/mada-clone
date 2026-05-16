@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 
-export default function GaleriPage() {
+export default function GaleriVideoPage() {
   const [posts, setPosts] = useState<any[]>([]);
   const [images, setImages] = useState<Record<number, string>>({});
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -11,12 +11,12 @@ export default function GaleriPage() {
   const startX = useRef(0);
   const endX = useRef(0);
 
-  // FETCH DATA
+  // AMBIL VIDEO DATA
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await fetch(
-          "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=79"
+          "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=99"
         );
         const data = await res.json();
         setPosts(data);
@@ -106,19 +106,45 @@ export default function GaleriPage() {
     }
   };
 
+  // EXTRACT VIDEO (YOUTUBE / IFRAME)
+  function extractVideoSrc(html: string) {
+    if (!html) return null;
+
+    const match =
+      html.match(/src="([^"]+)"/) ||
+      html.match(/https:\/\/www\.youtube\.com\/embed\/[^\s"]+/) ||
+      html.match(/https:\/\/www\.youtube\.com\/watch\?v=[^\s"]+/);
+
+    if (!match) return null;
+
+    let url = match[1] || match[0];
+
+    // convert watch?v= ke embed
+    if (url.includes("watch?v=")) {
+      const id = url.split("v=")[1];
+      url = `https://www.youtube.com/embed/${id}`;
+    }
+
+    return url;
+  }
+
+  const videoUrl = extractVideoSrc(
+    posts[activeIndex!]?.content?.rendered || ""
+  );
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
 
       {/* HEADER */}
       <section className="max-w-6xl mx-auto px-4 pt-10 pb-6">
         <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
-          📸 Galeri Foto
+          🎬 Galeri Video
         </h1>
         <p className="text-slate-500 mt-2">
-          Dokumentasi kegiatan dan momen penting
+          Dokumentasi video kegiatan dan publikasi
         </p>
 
-        <div className="w-24 h-1 bg-pink-500 rounded-full mt-4" />
+        <div className="w-24 h-1 bg-red-500 rounded-full mt-4" />
       </section>
 
       {/* GRID */}
@@ -131,13 +157,21 @@ export default function GaleriPage() {
               onClick={() => open(index)}
               className="cursor-pointer group overflow-hidden rounded-xl border bg-white shadow-sm hover:shadow-lg transition"
             >
+              {/* THUMBNAIL */}
               <div className="relative w-full h-40">
                 <Image
                   src={images[post.id] || "/no-image.jpg"}
-                  alt={post.title?.rendered || "Galeri"}
+                  alt={post.title?.rendered || "Video"}
                   fill
                   className="object-cover group-hover:scale-105 transition duration-300"
                 />
+
+                {/* PLAY ICON */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition">
+                  <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center text-black text-xl">
+                    ▶
+                  </div>
+                </div>
               </div>
 
               <div className="p-2">
@@ -151,7 +185,7 @@ export default function GaleriPage() {
         </div>
       </section>
 
-      {/* LIGHTBOX */}
+      {/* POPUP VIDEO */}
       {activeIndex !== null && posts[activeIndex] && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
@@ -162,7 +196,7 @@ export default function GaleriPage() {
 
           {/* MODAL */}
           <div
-            className="relative w-full max-w-5xl h-[85vh] px-4 animate-zoomIn"
+            className="relative w-full max-w-4xl h-[80vh] px-4 animate-zoomIn"
             onClick={(e) => e.stopPropagation()}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
@@ -177,31 +211,22 @@ export default function GaleriPage() {
               ✕
             </button>
 
-            {/* IMAGE */}
+            {/* VIDEO */}
             <div className="relative w-full h-full">
-              <Image
-                src={images[posts[activeIndex].id] || "/no-image.jpg"}
-                alt="preview"
-                fill
-                className="object-contain rounded-xl animate-fadeZoom"
-                priority
-              />
+              {videoUrl ? (
+                <iframe
+                  className="w-full h-full rounded-xl"
+                  src={videoUrl}
+                  title={posts[activeIndex].title?.rendered}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-white">
+                  Video tidak tersedia
+                </div>
+              )}
             </div>
-
-            {/* NAV */}
-            <button
-              onClick={prev}
-              className="hidden md:block absolute left-2 top-1/2 -translate-y-1/2 text-white text-4xl opacity-70 hover:opacity-100 hover:scale-110 transition"
-            >
-              ‹
-            </button>
-
-            <button
-              onClick={next}
-              className="hidden md:block absolute right-2 top-1/2 -translate-y-1/2 text-white text-4xl opacity-70 hover:opacity-100 hover:scale-110 transition"
-            >
-              ›
-            </button>
 
           </div>
         </div>

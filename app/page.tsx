@@ -90,23 +90,24 @@ export default async function Home() {
         <AgendaSlider posts={agendaPosts} />
       </section>
 
-      {/* PENGUMUMAN */}
-  <section className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100">
-       
+  {/* PENGUMUMAN */}
+<section className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100">
+  <div className="max-w-6xl mx-auto px-4 mb-6">
 
-        <p className="text-slate-500 mt-1">
-	 <div className="max-w-6xl mx-auto px-4 mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
-            📢 Pengumuman
-          </h2>
-        </div>
-          Informasi resmi akademik dan pengumuman terbaru
-        </p>
+    <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+      📢 Pengumuman
+    </h2>
 
-        <div className="w-24 h-1 bg-blue-600 rounded-full mt-3" />
+    <p className="text-slate-500 mt-1">
+      Informasi resmi akademik dan pengumuman terbaru
+    </p>
 
-        <AcademicAnnouncement />
-      </section>
+    <div className="w-24 h-1 bg-blue-600 rounded-full mt-3" />
+
+    <AcademicAnnouncement />
+
+  </div>
+</section>
 
       {/* LINKS */}
       <section className="mb-14">

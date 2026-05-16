@@ -1,0 +1,52 @@
+import withPWA from "next-pwa";
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  allowedDevOrigins: [
+    "localhost:3000",
+    "127.0.0.1:3000",
+  ],
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cms.komunikasi.uinsgd.ac.id",
+      },
+    ],
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: "/api-proxy/:path*",
+        destination:
+          "https://cms.komunikasi.uinsgd.ac.id/:path*",
+      },
+    ];
+  },
+
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "mada-clone.vercel.app",
+          },
+        ],
+        destination:
+          "https://komunikasi.uinsgd.ac.id/:path*",
+        permanent: true,
+      },
+    ];
+  },
+};
+
+export default withPWA({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+})(nextConfig);
