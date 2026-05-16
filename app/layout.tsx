@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://komunikasi.uinsgd.ac.id"),
   title: "Ilkom UIN SGD Bandung",
