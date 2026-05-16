@@ -73,6 +73,12 @@ export default async function Page({
 
   if (!post) return notFound();
 
+/* ✅ TAMBAHKAN INI */
+const url = `https://komunikasi.uinsgd.ac.id/berita/${slug}`;
+
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(post.title.rendered);
+
   /* ================= AUTHOR ================= */
   const author =
     post?._embedded?.author?.[0]?.name || "Admin";
