@@ -19,7 +19,7 @@ const Footer = () => {
           <h3 className="text-white font-semibold mb-4">Navigasi</h3>
           <ul className="space-y-2 text-sm">
             <li><a href="/">Beranda</a></li>
-            <li><a href="/berita">Berita</a></li>
+            <li><a href="https://damba.uinsgd.ac.id/auth/login">PMB</a></li>
             <li><a href="/profil">Profil</a></li>
             <li><a href="/kontak">Kontak</a></li>
           </ul>
@@ -29,8 +29,8 @@ const Footer = () => {
         <div>
           <h3 className="text-white font-semibold mb-4">Kontak</h3>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li>Email: info@kampus.ac.id</li>
-            <li>Telp: (021) 12345678</li>
+            <li>Email: ilkom@uinsgd.ac.id</li>
+            <li>Telp: (022) 12345678</li>
             <li>Bandung, Jawa Barat</li>
           </ul>
         </div>
@@ -43,7 +43,7 @@ const Footer = () => {
 
             {/* INSTAGRAM */}
             <a
-              href="#"
+              href="https://www.instagram.com/ilkom_uinbandung"
               className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:scale-110 transition"
             >
               <svg viewBox="0 0 24 24" className="w-5 h-5">
@@ -65,7 +65,7 @@ const Footer = () => {
 
             {/* YOUTUBE */}
             <a
-              href="#"
+              href="https://www.youtube.com/channel/UCZdcQSCXzAPAOsu7xEEB9FQ"
               className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:scale-110 transition"
             >
               <svg viewBox="0 0 24 24" className="w-6 h-6 fill-red-500">
