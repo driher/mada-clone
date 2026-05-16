@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -48,48 +47,28 @@ export default function RootLayout({
       lang="id"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <head>
-
-        {/* ================= GOOGLE ANALYTICS 4 ================= */}
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-FJ4R6P1CDB"
-        />
-
-        <Script id="ga4-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-FJ4R6P1CDB', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
-
-      </head>
-
       <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
 
-        {/* ================= PWA ================= */}
+        {/* PWA */}
         <PWAInstall />
 
-        {/* ================= NAVBAR ================= */}
+        {/* NAVBAR */}
         <Navbar />
 
-        {/* ================= CONTENT ================= */}
+        {/* CONTENT */}
         <main className="flex-1">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
+            {/* hanya frame halaman, bisa dihapus kalau mau full width */}
             <div className="bg-white shadow-xl shadow-black/5 rounded-2xl border border-slate-100 overflow-hidden">
-              {children}
-            </div>
 
+              {children}
+
+            </div>
           </div>
         </main>
 
-        {/* ================= FOOTER ================= */}
+        {/* FOOTER */}
         <Footer />
 
       </body>
