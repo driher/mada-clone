@@ -1,25 +1,11 @@
-import { notFound } from "next/navigation";
-
-export const revalidate = 60;
-
-/* ================= SEO + WHATSAPP SHARE ================= */
 export async function generateMetadata({ params }: any) {
-  const { slug } = await params;
-
   const res = await fetch(
-    `https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+    `https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?slug=${params.slug}&_embed`,
     { cache: "no-store" }
   );
 
   const posts = await res.json();
   const post = posts?.[0];
-
-  if (!post) {
-    return {
-      title: "Berita tidak ditemukan",
-      description: "Konten tidak tersedia",
-    };
-  }
 
   const title =
     post?.title?.rendered || "Berita Ilmu Komunikasi UIN Bandung";
@@ -33,7 +19,7 @@ export async function generateMetadata({ params }: any) {
     post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
     "https://komunikasi.uinsgd.ac.id/no-image.jpg";
 
-  const url = `https://komunikasi.uinsgd.ac.id/berita/${slug}`;
+  const url = `https://komunikasi.uinsgd.ac.id/berita/${params.slug}`;
 
   return {
     title,
@@ -67,7 +53,6 @@ export async function generateMetadata({ params }: any) {
   };
 }
 
-/* ================= PAGE ================= */
 export default async function Page({
   params,
 }: {
@@ -84,8 +69,6 @@ export default async function Page({
   const posts = await res.json();
   const post = posts?.[0];
 
-  if (!post) return notFound();
-
   // RELATED POSTS
   const relatedRes = await fetch(
     `https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=44&_embed&per_page=6`,
@@ -94,14 +77,19 @@ export default async function Page({
 
   const relatedPosts = await relatedRes.json();
 
+  if (!post) {
+    return (
+      <div className="p-6">
+        <h1 className="text-xl font-bold">Berita tidak ditemukan</h1>
+      </div>
+    );
+  }
+
   const image =
-    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
-    "https://komunikasi.uinsgd.ac.id/no-image.jpg";
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
 
   const cleanText =
     post?.content?.rendered?.replace(/<[^>]*>/g, "") || "";
-
-  const url = `https://komunikasi.uinsgd.ac.id/berita/${slug}`;
 
   return (
     <article className="max-w-6xl mx-auto p-6">
@@ -118,7 +106,6 @@ export default async function Page({
             image: image ? [image] : [],
             datePublished: post.date,
             dateModified: post.modified || post.date,
-            mainEntityOfPage: url,
             author: {
               "@type": "Organization",
               name: "Ilmu Komunikasi UIN Bandung",
@@ -135,7 +122,7 @@ export default async function Page({
         }}
       />
 
-      {/* ================= DETAIL ================= */}
+      {/* ================= DETAIL ARTIKEL ================= */}
       <div className="max-w-3xl mx-auto">
 
         <header>
@@ -155,24 +142,31 @@ export default async function Page({
           </time>
         </header>
 
-        <img
-          src={image}
-          alt={post.title.rendered}
-          className="w-full rounded-xl mb-6 mt-4"
-          loading="lazy"
-        />
+        {image && (
+          <img
+            src={image}
+            className="w-full rounded-xl mb-6 mt-4"
+            alt={post.title.rendered}
+            loading="lazy"
+          />
+        )}
 
         <div
           className="
             text-gray-700 leading-relaxed
+
             [&>*]:mb-4
             [&>p]:mb-5
+
             [&>h2]:mt-8 [&>h2]:mb-4 [&>h2]:text-2xl [&>h2]:font-bold
             [&>h3]:mt-6 [&>h3]:mb-3 [&>h3]:text-xl [&>h3]:font-semibold
+
             [&>ul]:mb-5 [&>ul]:pl-5 [&>ul]:list-disc
             [&>ol]:mb-5 [&>ol]:pl-5 [&>ol]:list-decimal
+
             [&_img]:rounded-xl
             [&_img]:w-full
+
             [&>p>a]:text-orange-500 [&>p>a]:underline
           "
           dangerouslySetInnerHTML={{
@@ -211,12 +205,25 @@ export default async function Page({
                         src={thumb}
                         alt={item.title.rendered}
                         loading="lazy"
-                        className="w-full h-[220px] object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="
+                          w-full
+                          h-[220px]
+                          object-cover
+                          transition-transform
+                          duration-300
+                          group-hover:scale-105
+                        "
                       />
                     ) : (
                       <div className="w-full h-[220px] bg-gray-200" />
                     )}
 
+                  </div>
+
+                  <div className="mb-3">
+                    <span className="bg-cyan-700 text-white text-xs font-semibold px-3 py-1 rounded">
+                      Berita
+                    </span>
                   </div>
 
                   <h5
@@ -226,7 +233,7 @@ export default async function Page({
                     }}
                   />
 
-                  <div className="text-sm text-gray-500 mt-2">
+                  <div className="text-sm text-gray-500">
                     {new Date(item.date).toLocaleDateString("id-ID", {
                       weekday: "long",
                       day: "numeric",
