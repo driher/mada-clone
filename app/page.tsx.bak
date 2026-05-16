@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import PopularLinks from "@/components/PopularLinks";
 import ProfileCard from "@/components/ProfileCard";
 import AcademicAnnouncement from "@/components/AcademicAnnouncement";
@@ -17,33 +16,6 @@ import {
 } from "@/lib/api";
 
 export const revalidate = 300;
-
-/* ================= SEO METADATA ================= */
-export const metadata: Metadata = {
-  title: "Ilmu Komunikasi UIN Bandung - Berita, Agenda, Pengumuman",
-  description:
-    "Website resmi Program Studi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung. Berisi berita, agenda kegiatan, pengumuman akademik, dan informasi jurusan.",
-  keywords: [
-    "Ilmu Komunikasi UIN Bandung",
-    "UIN SGD",
-    "Berita Kampus",
-    "Agenda Kampus",
-    "Pengumuman Akademik",
-  ],
-  openGraph: {
-    title: "Ilmu Komunikasi UIN Bandung",
-    description:
-      "Berita, agenda, dan pengumuman resmi Program Studi Ilmu Komunikasi UIN Bandung",
-    url: "https://komunikasi.uinsgd.ac.id",
-    siteName: "Ilmu Komunikasi UIN Bandung",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Ilmu Komunikasi UIN Bandung",
-    description: "Website resmi Prodi Ilmu Komunikasi UIN Bandung",
-  },
-};
 
 export default async function Home() {
   const heroPosts = await getHeroPosts().catch(() => []);
@@ -66,19 +38,18 @@ export default async function Home() {
   const jurnalistik = await getProdiJurnalistik().catch(() => null);
 
   const getImage = (post: any) =>
-    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
     post?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes?.medium
       ?.source_url ||
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
     "/no-image.jpg";
 
   const getContent = (post: any) => {
-    const text = (post?.excerpt?.rendered || post?.content?.rendered || "")
+    const text = (post?.content?.rendered || post?.excerpt?.rendered || "")
       .replace(/<[^>]*>/g, "")
-      .replace(/\s+/g, " ")
       .trim();
 
-    return text.length > 160
-      ? text.slice(0, 160).replace(/\s+\S*$/, "") + "..."
+    return text.length > 300
+      ? text.slice(0, 300).replace(/\s+\S*$/, "") + "..."
       : text;
   };
 
@@ -87,15 +58,11 @@ export default async function Home() {
 
       {/* HERO */}
       <section className="mb-10">
-        <h1 className="sr-only">
-          Ilmu Komunikasi UIN Sunan Gunung Djati Bandung
-        </h1>
-
         <HeroSlider posts={heroPosts} />
       </section>
 
       {/* BERITA */}
-      <section className="mb-14" aria-label="Berita terbaru">
+      <section className="mb-14">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             📰 Berita
@@ -109,10 +76,7 @@ export default async function Home() {
       </section>
 
       {/* AGENDA */}
-      <section
-        className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100"
-        aria-label="Agenda kegiatan"
-      >
+      <section className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100">
         <div className="max-w-6xl mx-auto px-4 mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
             📅 Agenda & Kegiatan
@@ -126,27 +90,24 @@ export default async function Home() {
         <AgendaSlider posts={agendaPosts} />
       </section>
 
-      {/* PENGUMUMAN */}
-      <section
-        className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100"
-        aria-label="Pengumuman akademik"
-      >
-        <div className="max-w-6xl mx-auto px-4 mb-6">
+  {/* PENGUMUMAN */}
+<section className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100">
+  <div className="max-w-6xl mx-auto px-4 mb-6">
 
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
-            📢 Pengumuman
-          </h2>
+    <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+      📢 Pengumuman
+    </h2>
 
-          <p className="text-slate-500 mt-1">
-            Informasi resmi akademik dan pengumuman terbaru
-          </p>
+    <p className="text-slate-500 mt-1">
+      Informasi resmi akademik dan pengumuman terbaru
+    </p>
 
-          <div className="w-24 h-1 bg-blue-600 rounded-full mt-3" />
+    <div className="w-24 h-1 bg-blue-600 rounded-full mt-3" />
 
-          <AcademicAnnouncement />
+    <AcademicAnnouncement />
 
-        </div>
-      </section>
+  </div>
+</section>
 
       {/* LINKS */}
       <section className="mb-14">
