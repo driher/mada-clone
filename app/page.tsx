@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Script from "next/script";
+
 import PopularLinks from "@/components/PopularLinks";
 import ProfileCard from "@/components/ProfileCard";
 import AcademicAnnouncement from "@/components/AcademicAnnouncement";
@@ -83,123 +85,141 @@ export default async function Home() {
   };
 
   return (
-    <main className="bg-gradient-to-b from-slate-50 to-white min-h-screen">
+    <>
+      {/* GOOGLE ANALYTICS */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-FJ4R6P1CDB"
+        strategy="afterInteractive"
+      />
 
-      {/* HERO */}
-      <section className="mb-10">
-        <h1 className="sr-only">
-          Ilmu Komunikasi UIN Sunan Gunung Djati Bandung
-        </h1>
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
 
-        <HeroSlider posts={heroPosts} />
-      </section>
+          gtag('config', 'G-FJ4R6P1CDB');
+        `}
+      </Script>
 
-      {/* BERITA */}
-      <section className="mb-14" aria-label="Berita terbaru">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            📰 Berita
-          </h2>
-          <p className="text-gray-500 mt-2">
-            Informasi dan kabar terbaru seputar kegiatan dan akademik
-          </p>
+      <main className="bg-gradient-to-b from-slate-50 to-white min-h-screen">
 
-          <NewsModern posts={beritaPosts} />
-        </div>
-      </section>
+        {/* HERO */}
+        <section className="mb-10">
+          <h1 className="sr-only">
+            Ilmu Komunikasi UIN Sunan Gunung Djati Bandung
+          </h1>
 
-      {/* AGENDA */}
-      <section
-        className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100"
-        aria-label="Agenda kegiatan"
-      >
-        <div className="max-w-6xl mx-auto px-4 mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
-            📅 Agenda & Kegiatan
-          </h2>
-          <p className="text-slate-500 mt-1">
-            Informasi kegiatan terbaru program studi
-          </p>
-          <div className="w-20 h-1 bg-blue-600 rounded-full mt-3" />
-        </div>
+          <HeroSlider posts={heroPosts} />
+        </section>
 
-        <AgendaSlider posts={agendaPosts} />
-      </section>
+        {/* BERITA */}
+        <section className="mb-14" aria-label="Berita terbaru">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              📰 Berita
+            </h2>
+            <p className="text-gray-500 mt-2">
+              Informasi dan kabar terbaru seputar kegiatan dan akademik
+            </p>
 
-      {/* PENGUMUMAN */}
-      <section
-        className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100"
-        aria-label="Pengumuman akademik"
-      >
-        <div className="max-w-6xl mx-auto px-4 mb-6">
+            <NewsModern posts={beritaPosts} />
+          </div>
+        </section>
 
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
-            📢 Pengumuman
-          </h2>
+        {/* AGENDA */}
+        <section
+          className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100"
+          aria-label="Agenda kegiatan"
+        >
+          <div className="max-w-6xl mx-auto px-4 mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+              📅 Agenda & Kegiatan
+            </h2>
+            <p className="text-slate-500 mt-1">
+              Informasi kegiatan terbaru program studi
+            </p>
+            <div className="w-20 h-1 bg-blue-600 rounded-full mt-3" />
+          </div>
 
-          <p className="text-slate-500 mt-1">
-            Informasi resmi akademik dan pengumuman terbaru
-          </p>
+          <AgendaSlider posts={agendaPosts} />
+        </section>
 
-          <div className="w-24 h-1 bg-blue-600 rounded-full mt-3" />
+        {/* PENGUMUMAN */}
+        <section
+          className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100"
+          aria-label="Pengumuman akademik"
+        >
+          <div className="max-w-6xl mx-auto px-4 mb-6">
 
-          <AcademicAnnouncement />
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+              📢 Pengumuman
+            </h2>
 
-        </div>
-      </section>
+            <p className="text-slate-500 mt-1">
+              Informasi resmi akademik dan pengumuman terbaru
+            </p>
 
-      {/* LINKS */}
-      <section className="mb-14">
-        <div className="max-w-6xl mx-auto px-4">
-          <PopularLinks />
-        </div>
-      </section>
+            <div className="w-24 h-1 bg-blue-600 rounded-full mt-3" />
 
-      {/* PROFILE */}
-      <section className="space-y-8 mb-16 max-w-6xl mx-auto px-4">
+            <AcademicAnnouncement />
 
-        {ketua && (
-          <ProfileCard
-            label="Ketua Jurusan"
-            name={ketua?.title?.rendered ?? "Data belum tersedia"}
-            image={getImage(ketua)}
-            content={getContent(ketua)}
-            color="green"
-          />
-        )}
+          </div>
+        </section>
 
-        {sekretaris && (
-          <ProfileCard
-            label="Sekretaris Jurusan"
-            name={sekretaris?.title?.rendered ?? "Data belum tersedia"}
-            image={getImage(sekretaris)}
-            content={getContent(sekretaris)}
-            color="orange"
-          />
-        )}
+        {/* LINKS */}
+        <section className="mb-14">
+          <div className="max-w-6xl mx-auto px-4">
+            <PopularLinks />
+          </div>
+        </section>
 
-        {humas && (
-          <ProfileCard
-            label="Ketua Prodi Humas"
-            name={humas?.title?.rendered ?? "Data belum tersedia"}
-            image={getImage(humas)}
-            content={getContent(humas)}
-            color="pink"
-          />
-        )}
+        {/* PROFILE */}
+        <section className="space-y-8 mb-16 max-w-6xl mx-auto px-4">
 
-        {jurnalistik && (
-          <ProfileCard
-            label="Ketua Prodi Jurnalistik"
-            name={jurnalistik?.title?.rendered ?? "Data belum tersedia"}
-            image={getImage(jurnalistik)}
-            content={getContent(jurnalistik)}
-            color="orange"
-          />
-        )}
+          {ketua && (
+            <ProfileCard
+              label="Ketua Jurusan"
+              name={ketua?.title?.rendered ?? "Data belum tersedia"}
+              image={getImage(ketua)}
+              content={getContent(ketua)}
+              color="green"
+            />
+          )}
 
-      </section>
+          {sekretaris && (
+            <ProfileCard
+              label="Sekretaris Jurusan"
+              name={sekretaris?.title?.rendered ?? "Data belum tersedia"}
+              image={getImage(sekretaris)}
+              content={getContent(sekretaris)}
+              color="orange"
+            />
+          )}
 
-    </main>
+          {humas && (
+            <ProfileCard
+              label="Ketua Prodi Humas"
+              name={humas?.title?.rendered ?? "Data belum tersedia"}
+              image={getImage(humas)}
+              content={getContent(humas)}
+              color="pink"
+            />
+          )}
+
+          {jurnalistik && (
+            <ProfileCard
+              label="Ketua Prodi Jurnalistik"
+              name={jurnalistik?.title?.rendered ?? "Data belum tersedia"}
+              image={getImage(jurnalistik)}
+              content={getContent(jurnalistik)}
+              color="orange"
+            />
+          )}
+
+        </section>
+
+      </main>
+    </>
   );
 }

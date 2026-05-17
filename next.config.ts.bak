@@ -2,30 +2,29 @@ import withPWA from "next-pwa";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: [
-    "localhost:3000",
-    "127.0.0.1:3000",
-  ],
+  turbopack: {},
 
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cms.komunikasi.uinsgd.ac.id",
-      },
-    ],
-  },
+  allowedDevOrigins: ["localhost"],
+
+images: {
+  remotePatterns: [
+    {
+      protocol: "https",
+      hostname: "cms.komunikasi.uinsgd.ac.id",
+    },
+  ],
+},
 
   async rewrites() {
     return [
       {
         source: "/api-proxy/:path*",
-        destination:
-          "https://cms.komunikasi.uinsgd.ac.id/:path*",
+        destination: "https://cms.komunikasi.uinsgd.ac.id/:path*",
       },
     ];
   },
 
+  // ✅ TAMBAHAN REDIRECT VERCEL → DOMAIN UTAMA
   async redirects() {
     return [
       {
@@ -36,8 +35,7 @@ const nextConfig: NextConfig = {
             value: "mada-clone.vercel.app",
           },
         ],
-        destination:
-          "https://komunikasi.uinsgd.ac.id/:path*",
+        destination: "https://komunikasi.uinsgd.ac.id/:path*",
         permanent: true,
       },
     ];
