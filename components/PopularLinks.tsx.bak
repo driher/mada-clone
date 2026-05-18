@@ -12,8 +12,6 @@ export default function PopularLinks() {
   ];
 
   return (
-    <div className="space-y-2">
-
       {/* BANNER */}
       <div className="relative overflow-hidden rounded-3xl shadow-xl">
         <Image

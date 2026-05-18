@@ -3,6 +3,27 @@ import Image from "next/image";
 
 export const revalidate = 60;
 
+/* ================= SEO METADATA ================= */
+export const metadata = {
+  title: "Berita Ilmu Komunikasi UIN Bandung | News, article & Update Kampus",
+  description:
+    "Kumpulan berita resmi Program Studi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung. Informasi akademik, kegiatan kampus, dan publikasi terbaru.",
+  keywords: [
+    "berita UIN Bandung",
+    "ilmu komunikasi UIN",
+    "berita kampus",
+    "artikel dosen",
+    "Google News UIN",
+    "berita akademik",
+  ],
+  openGraph: {
+    title: "Berita Ilmu Komunikasi UIN Bandung",
+    description:
+      "Update berita artikel dan kegiatan resmi kampus Ilmu Komunikasi UIN Bandung",
+    type: "article",
+  },
+};
+
 export default async function Page() {
   const res = await fetch(
     "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=66&_embed&per_page=9",
@@ -16,54 +37,130 @@ export default async function Page() {
     "/no-image.jpg";
 
   return (
-    <main className="bg-gray-50 min-h-screen py-10">
+    <main className="bg-gradient-to-b from-gray-50 to-white min-h-screen py-12">
+
+      {/* ================= GOOGLE NEWS SCHEMA ================= */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            headline: "Berita Ilmu Komunikasi UIN Bandung",
+            description:
+              "Kumpulan berita resmi Program Studi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung.",
+            url: "https://komunikasi.uinsgd.ac.id/berita",
+            image: posts?.[0]?._embedded?.["wp:featuredmedia"]?.[0]
+              ?.source_url
+              ? [
+                  posts[0]._embedded["wp:featuredmedia"][0].source_url,
+                ]
+              : ["https://komunikasi.uinsgd.ac.id/no-image.jpg"],
+            datePublished: posts?.[0]?.date || new Date().toISOString(),
+            dateModified: new Date().toISOString(),
+            author: {
+              "@type": "Organization",
+              name: "Ilmu Komunikasi UIN Bandung",
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Ilmu Komunikasi UIN Bandung",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://komunikasi.uinsgd.ac.id/logo.png",
+              },
+            },
+          }),
+        }}
+      />
+
       <section className="max-w-6xl mx-auto px-4">
 
-        {/* TITLE */}
-        <h1 className="text-2xl md:text-3xl font-bold mb-8">
-          Artikel Terbaru
-        </h1>
+        {/* ================= HEADER SEO ================= */}
+        <header className="mb-10">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
+            📰 Artikel Terbaru Ilmu Komunikasi UIN Bandung
+          </h1>
 
-        {/* GRID */}
-        <div className="grid md:grid-cols-3 gap-6">
+          <p className="text-gray-500 mt-2 max-w-2xl">
+            Artikel, pemikiran dan gagasan Program Studi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung.
+          </p>
 
-          {posts.map((post: any) => (
-            <Link key={post.id} href={`/berita/${post.slug}`}>
-              <div className="bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer">
+          <div className="w-20 h-1 bg-orange-500 mt-4 rounded-full" />
+        </header>
+
+        {/* ================= GRID ================= */}
+        <section
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          aria-label="Daftar berita Ilmu Komunikasi UIN Bandung"
+        >
+
+          {posts?.map((post: any) => (
+            <article
+              key={post.id}
+              className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+            >
+
+              <Link href={`/berita/${post.slug}`}>
 
                 {/* IMAGE */}
-                <div className="relative w-full h-48">
+                <div className="relative w-full h-48 overflow-hidden">
+
                   <Image
                     src={getImage(post)}
-                    alt={post.title.rendered}
+                    alt={post.title?.rendered || "Berita Ilmu Komunikasi UIN Bandung"}
                     fill
-                    className="object-cover"
+                    loading="lazy"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+                  <div className="absolute top-3 left-3 bg-blue-600 text-white text-xs px-3 py-1 rounded-full shadow">
+                    Article
+                  </div>
+
                 </div>
 
                 {/* CONTENT */}
-                <div className="p-4">
+                <div className="p-5">
+
                   <h2
-                    className="font-semibold text-lg leading-snug line-clamp-2"
+                    className="font-semibold text-lg leading-snug line-clamp-2 group-hover:text-blue-600 transition"
                     dangerouslySetInnerHTML={{
                       __html: post.title.rendered,
                     }}
                   />
 
-                  <p className="text-sm text-gray-500 mt-2">
-                    {new Date(post.date).toLocaleDateString("id-ID", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
+                  <p className="text-sm text-gray-500 mt-2 line-clamp-2">
+                    {post.excerpt?.rendered?.replace(/<[^>]*>/g, "")}
                   </p>
+
+                  <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
+
+                    <time dateTime={post.date}>
+                      📅{" "}
+                      {new Date(post.date).toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </time>
+
+                    <span className="text-blue-600 font-medium group-hover:underline">
+                      Baca selengkapnya →
+                    </span>
+
+                  </div>
+
                 </div>
 
-              </div>
-            </Link>
+              </Link>
+
+            </article>
           ))}
 
-        </div>
+        </section>
 
       </section>
     </main>

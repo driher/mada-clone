@@ -5,27 +5,28 @@ export const revalidate = 60;
 
 /* ================= SEO METADATA ================= */
 export const metadata = {
-  title: "Berita Ilmu Komunikasi UIN Bandung | Google News & Update Kampus",
+  title: "Berita Ilmu Komunikasi UIN Bandung | News, article & Update Kampus",
   description:
     "Kumpulan berita resmi Program Studi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung. Informasi akademik, kegiatan kampus, dan publikasi terbaru.",
   keywords: [
     "berita UIN Bandung",
     "ilmu komunikasi UIN",
     "berita kampus",
+    "artikel dosen",
     "Google News UIN",
     "berita akademik",
   ],
   openGraph: {
     title: "Berita Ilmu Komunikasi UIN Bandung",
     description:
-      "Update berita dan kegiatan resmi kampus Ilmu Komunikasi UIN Bandung",
+      "Update berita artikel dan kegiatan resmi kampus Ilmu Komunikasi UIN Bandung",
     type: "article",
   },
 };
 
 export default async function Page() {
   const res = await fetch(
-    "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=44&_embed&per_page=9",
+    "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=66&_embed&per_page=9",
     { next: { revalidate: 60 } }
   );
 
@@ -78,11 +79,11 @@ export default async function Page() {
         {/* ================= HEADER SEO ================= */}
         <header className="mb-10">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
-            📰 Berita Terbaru Ilmu Komunikasi UIN Bandung
+            📰 Artikel Terbaru Ilmu Komunikasi UIN Bandung
           </h1>
 
           <p className="text-gray-500 mt-2 max-w-2xl">
-            Informasi resmi, kegiatan kampus, dan update akademik Program Studi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung.
+            Artikl, pemikiran dan gagasan Program Studi Ilmu Komunikasi UIN Sunan Gunung Djati Bandung.
           </p>
 
           <div className="w-20 h-1 bg-orange-500 mt-4 rounded-full" />
@@ -116,7 +117,7 @@ export default async function Page() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
                   <div className="absolute top-3 left-3 bg-blue-600 text-white text-xs px-3 py-1 rounded-full shadow">
-                    News
+                    Article
                   </div>
 
                 </div>

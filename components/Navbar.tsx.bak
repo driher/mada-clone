@@ -48,7 +48,6 @@ export default function Navbar() {
   // LINK LANGSUNG
   const directLinks = [
     { name: "Berita", href: "/berita" },
-    { name: "Artikel", href: "/artikel" },
     { name: "Agenda", href: "/agenda" },
     { name: "Mahasiswa", href: "/mahasiswa" },
     { name: "Penelitian", href: "/penelitian" },
