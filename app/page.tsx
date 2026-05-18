@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import Link from "next/link";
+import Image from "next/image";
 
 import PopularLinks from "@/components/PopularLinks";
 import ProfileCard from "@/components/ProfileCard";
@@ -62,6 +64,16 @@ export default async function Home() {
   );
   const agendaPosts = await agendaRes.json().catch(() => []);
 
+  /* ================= PRESTASI ================= */
+
+  const prestasiRes = await fetch(
+    "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?categories=80&_embed&per_page=1",
+    { next: { revalidate: 300 } }
+  );
+
+  const prestasiPosts = await prestasiRes.json().catch(() => []);
+  const prestasi = prestasiPosts?.[0];
+
   const ketua = await getKetuaJurusan().catch(() => null);
   const sekretaris = await getSekretarisJurusan().catch(() => null);
   const humas = await getProdiHumas().catch(() => null);
@@ -116,53 +128,129 @@ export default async function Home() {
         {/* BERITA */}
         <section className="mb-14" aria-label="Berita terbaru">
           <div className="max-w-6xl mx-auto px-4">
+
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
               📰 Berita
             </h2>
+
             <p className="text-gray-500 mt-2">
               Informasi dan kabar terbaru seputar kegiatan dan akademik
             </p>
 
             <NewsModern posts={beritaPosts} />
+
           </div>
         </section>
 
         {/* AGENDA */}
         <section
-          className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100"
+          className="mb-8 bg-white/60 backdrop-blur-sm py-0 border-y border-slate-100"
           aria-label="Agenda kegiatan"
         >
-          <div className="max-w-6xl mx-auto px-4 mb-6">
+          <div className="max-w-6xl mx-auto px-4 mb-4">
+
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
               📅 Agenda & Kegiatan
             </h2>
+
             <p className="text-slate-500 mt-1">
               Informasi kegiatan terbaru program studi
             </p>
+
             <div className="w-20 h-1 bg-blue-600 rounded-full mt-3" />
+
           </div>
 
           <AgendaSlider posts={agendaPosts} />
+
         </section>
 
-        {/* PENGUMUMAN */}
+        {/* PENGUMUMAN + PRESTASI */}
         <section
-          className="mb-16 bg-white/60 backdrop-blur-sm py-10 border-y border-slate-100"
+          className="mb-16 bg-white/60 backdrop-blur-sm py-0 border-y border-slate-100"
           aria-label="Pengumuman akademik"
         >
-          <div className="max-w-6xl mx-auto px-4 mb-6">
+          <div className="max-w-6xl mx-auto px-4">
 
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
-              📢 Pengumuman
-            </h2>
+            <div className="grid lg:grid-cols-3 gap-0">
 
-            <p className="text-slate-500 mt-1">
-              Informasi resmi akademik dan pengumuman terbaru
-            </p>
+              {/* PENGUMUMAN */}
+              <div className="lg:col-span-2">
 
-            <div className="w-24 h-1 bg-blue-600 rounded-full mt-3" />
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  📢 Pengumuman
+                </h2>
 
-            <AcademicAnnouncement />
+                <p className="text-slate-500 mt-1">
+                  Informasi resmi akademik dan pengumuman terbaru
+                </p>
+
+
+                <AcademicAnnouncement />
+
+              </div>
+
+              {/* PRESTASI */}
+              {prestasi && (
+
+                <Link
+                  href={`/berita/${prestasi.slug}`}
+                  className="group"
+                >
+		<div className="w-24 h-1 bg-blue-600 rounded-full mt-2 mb-8" />
+
+                  <div className="relative overflow-hidden rounded-3xl shadow-xl aspect-[3/4]">
+
+                    {/* IMAGE */}
+                    <Image
+                      src={getImage(prestasi)}
+                      alt={prestasi.title.rendered}
+                      fill
+                      unoptimized
+                      sizes="(max-width:768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+
+                    {/* OVERLAY */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+
+                    {/* BADGE */}
+                    <div className="absolute top-4 left-4 bg-orange-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg z-10">
+                      Prestasi
+                    </div>
+
+                    {/* CONTENT */}
+                    <div className="absolute bottom-0 p-0 text-white z-10">
+
+                      <h3
+                        className="text-2xl font-extrabold leading-tight line-clamp-4"
+                        dangerouslySetInnerHTML={{
+                          __html: prestasi.title.rendered,
+                        }}
+                      />
+
+                      <div className="mt-3 text-sm text-white/80">
+                        📅{" "}
+                        {new Date(prestasi.date).toLocaleDateString("id-ID", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </div>
+
+                      <div className="mt-5 inline-flex items-center gap-2 bg-white text-black px-5 py-2 rounded-full font-semibold transition-all duration-300 group-hover:bg-orange-500 group-hover:text-white">
+                        Baca Selengkapnya →
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </Link>
+
+              )}
+
+            </div>
 
           </div>
         </section>

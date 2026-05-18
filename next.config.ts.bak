@@ -6,14 +6,14 @@ const nextConfig: NextConfig = {
 
   allowedDevOrigins: ["localhost"],
 
-images: {
-  remotePatterns: [
-    {
-      protocol: "https",
-      hostname: "cms.komunikasi.uinsgd.ac.id",
-    },
-  ],
-},
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cms.komunikasi.uinsgd.ac.id",
+      },
+    ],
+  },
 
   async rewrites() {
     return [
@@ -24,7 +24,7 @@ images: {
     ];
   },
 
-  // ✅ TAMBAHAN REDIRECT VERCEL → DOMAIN UTAMA
+  // ✅ REDIRECT VERCEL → DOMAIN UTAMA
   async redirects() {
     return [
       {
@@ -46,5 +46,8 @@ export default withPWA({
   dest: "public",
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === "development",
+  disable: isDev, // NONAKTIFKAN PWA SAAT DEV
+
+  // ✅ AKTIF DI DEV MODE
+  disable: false,
 })(nextConfig);

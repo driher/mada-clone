@@ -72,7 +72,7 @@ export default async function Page() {
 
                     {/* DATE */}
                     <span>
-                      📅 {" "}
+                      ðŸ“…{" "}
                       {new Date(post.date).toLocaleDateString("id-ID", {
                         day: "numeric",
                         month: "short",

@@ -1,7 +1,11 @@
 import withPWA from "next-pwa";
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === "development";
+
 const nextConfig: NextConfig = {
+  reactStrictMode: false,
+
   turbopack: {},
 
   allowedDevOrigins: ["localhost"],
@@ -24,7 +28,7 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // ✅ REDIRECT VERCEL → DOMAIN UTAMA
+  // REDIRECT VERCEL → DOMAIN UTAMA
   async redirects() {
     return [
       {
@@ -47,6 +51,6 @@ export default withPWA({
   register: true,
   skipWaiting: true,
 
-  // ✅ AKTIF DI DEV MODE
-  disable: false,
+  // NONAKTIFKAN PWA SAAT DEV
+  disable: isDev,
 })(nextConfig);
