@@ -91,8 +91,8 @@ export default async function Home() {
       .replace(/\s+/g, " ")
       .trim();
 
-    return text.length > 160
-      ? text.slice(0, 160).replace(/\s+\S*$/, "") + "..."
+    return text.length > 400
+      ? text.slice(0, 400).replace(/\s+\S*$/, "") + "..."
       : text;
   };
 

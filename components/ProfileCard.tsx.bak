@@ -28,7 +28,7 @@ export default function ProfileCard({
       <div className="flex flex-col md:flex-row">
 
         {/* FOTO */}
-        <div className="md:w-1/3 w-full min-h-[320px] relative">
+        <div className="md:w-1/3 w-full h-64 relative">
          <Image
   src={safeImage}
   alt={name}
