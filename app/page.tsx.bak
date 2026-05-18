@@ -91,8 +91,8 @@ export default async function Home() {
       .replace(/\s+/g, " ")
       .trim();
 
-    return text.length > 160
-      ? text.slice(0, 160).replace(/\s+\S*$/, "") + "..."
+    return text.length > 400
+      ? text.slice(0, 400).replace(/\s+\S*$/, "") + "..."
       : text;
   };
 
@@ -195,12 +195,12 @@ export default async function Home() {
 
                 <Link
                   href={`/berita/${prestasi.slug}`}
-                  className="group"
-                >
-		<div className="w-24 h-1 bg-blue-600 rounded-full mt-2 mb-8" />
+                  className="group">
+		<div className="w-24 h-0 bg-blue-600 rounded-full mt-4 mb-0" />   
 
                   <div className="relative overflow-hidden rounded-3xl shadow-xl aspect-[3/4]">
-
+			 {/* BADGE */}
+                  
                     {/* IMAGE */}
                     <Image
                       src={getImage(prestasi)}
@@ -210,40 +210,8 @@ export default async function Home() {
                       sizes="(max-width:768px) 100vw, 33vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-
-                    {/* OVERLAY */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
-
-                    {/* BADGE */}
-                    <div className="absolute top-4 left-4 bg-orange-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg z-10">
-                      Prestasi
-                    </div>
-
                     {/* CONTENT */}
-                    <div className="absolute bottom-0 p-0 text-white z-10">
-
-                      <h3
-                        className="text-2xl font-extrabold leading-tight line-clamp-4"
-                        dangerouslySetInnerHTML={{
-                          __html: prestasi.title.rendered,
-                        }}
-                      />
-
-                      <div className="mt-3 text-sm text-white/80">
-                        📅{" "}
-                        {new Date(prestasi.date).toLocaleDateString("id-ID", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </div>
-
-                      <div className="mt-5 inline-flex items-center gap-2 bg-white text-black px-5 py-2 rounded-full font-semibold transition-all duration-300 group-hover:bg-orange-500 group-hover:text-white">
-                        Baca Selengkapnya →
-                      </div>
-
-                    </div>
-
+                    
                   </div>
 
                 </Link>
