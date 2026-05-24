@@ -53,7 +53,7 @@ export default function Navbar() {
     { name: "Mahasiswa", href: "/mahasiswa" },
     { name: "Penelitian", href: "/penelitian" },
     { name: "Alumni", href: "/alumni" },
-    { name: "Pengumuman", href: "pengumuman" },
+    { name: "Pengumuman", href: "/pengumuman" },
     { name: "Download", href: "/download" },
   ];
 
