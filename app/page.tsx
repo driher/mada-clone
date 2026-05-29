@@ -134,7 +134,7 @@ export default async function Home() {
               name={jurnalistik.title.rendered}
               image={getImage(jurnalistik)}
               content={getContent(jurnalistik)}
-              color="blue"
+              color="orange"
             />
           )}
         </div>
