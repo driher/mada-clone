@@ -75,14 +75,15 @@ export default async function Home() {
 
   {/* PENGUMUMAN (2/3) */}
   <div className="lg:col-span-2">
-    <h2 className="text-2xl font-bold mb-4">📢 Pengumuman</h2>
+    <h2 className="text-2xl font-bold mb-0">📢 Pengumuman</h2>
     <AcademicAnnouncement />
   </div>
 
   {/* PRESTASI (1/3) */}
   {prestasi && (
     <div className="lg:col-span-1">
-      <div className="rounded-2xl overflow-hidden shadow-xl h-full">
+      <div className="rounded-2xl overflow-hidden shadow-xl max-width:768px) 100vw, 33vw">
+      
         <img
           src={getImage(prestasi)}
           className="w-full h-full object-cover"

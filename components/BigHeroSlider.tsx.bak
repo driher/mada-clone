@@ -123,7 +123,7 @@ export default function BigHeroSlider() {
             {/* SLIDE WRAPPER */}
             <div className="relative h-[300px] md:h-[620px] overflow-hidden">
               {/* BACKGROUND */}
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-orange-300 to-pink-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-300" />
 
               {/* PATTERN */}
               <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_#fff_1px,_transparent_1px)] [background-size:30px_30px]" />
