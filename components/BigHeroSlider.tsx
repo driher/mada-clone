@@ -151,7 +151,8 @@ export default function BigHeroSlider() {
 
                   <div className="mt-8 flex gap-4">
                     <Link
-                      href={post.link}
+                      key={post.id}
+                      href={`/agenda/${post.slug}`}
                       className="inline-flex items-center gap-3 bg-white text-orange-500 font-bold px-7 py-4 rounded-2xl shadow-2xl hover:scale-105 transition"
                     >
                       Baca Selengkapnya →
