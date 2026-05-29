@@ -6,32 +6,29 @@ import Link from "next/link";
 type Post = {
   id: number;
   title: { rendered: string };
-  link: string;
+  slug: string;
   _embedded?: any;
 };
 
 export default function BigHeroSlider() {
   const [slides, setSlides] = useState<Post[]>([]);
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const touchStartX = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // ======================================================
-  // FETCH DATA
-  // ======================================================
+  // ================= FETCH =================
   useEffect(() => {
     const fetchSlides = async () => {
       try {
         const res = await fetch(
-          "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?_embed&categories=63&per_page=10&orderby=date&order=desc",
+          "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?_embed=wp:featuredmedia&categories=63&per_page=10&orderby=date&order=desc",
           { cache: "no-store" }
         );
 
         const data = await res.json();
         setSlides(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error("Fetch error:", err);
+      } catch {
         setSlides([]);
       }
     };
@@ -39,74 +36,69 @@ export default function BigHeroSlider() {
     fetchSlides();
   }, []);
 
-  // ======================================================
-  // AUTO SLIDE (SAFE)
-  // ======================================================
+  // ================= AUTO SLIDE =================
   useEffect(() => {
     if (slides.length <= 1) return;
 
-    intervalRef.current = setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+
+    if (!isPaused) {
+      intervalRef.current = setInterval(() => {
+        setIndex((p) => (p + 1) % slides.length);
+      }, 6000);
+    }
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [slides]);
+  }, [slides, isPaused]);
 
-  // ======================================================
-  // TOUCH HANDLER
-  // ======================================================
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const endX = e.changedTouches[0].clientX;
-
-    if (touchStartX.current - endX > 50) nextSlide();
-    if (endX - touchStartX.current > 50) prevSlide();
-  };
-
-  // ======================================================
-  // NAVIGATION
-  // ======================================================
-  const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
-
-  // ======================================================
-  // IMAGE SAFE
-  // ======================================================
   const getImage = (post: any) => {
+    const media = post?._embedded?.["wp:featuredmedia"]?.[0];
     return (
-      post?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes?.large
-        ?.source_url ||
-      post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+      media?.media_details?.sizes?.large?.source_url ||
+      media?.source_url ||
       "/no-image.jpg"
     );
   };
 
-  // ======================================================
-  // EMPTY STATE
-  // ======================================================
+  const prev = () =>
+    setIndex((p) => (p - 1 + slides.length) % slides.length);
+
+  const next = () =>
+    setIndex((p) => (p + 1) % slides.length);
+
   if (!slides.length) {
-    return (
-      <div className="w-full h-[300px] md:h-[620px] bg-gray-200 animate-pulse" />
-    );
+    return <div className="h-[520px] w-full bg-gray-200 animate-pulse" />;
   }
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#f7b32b]"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+      className="relative w-full overflow-hidden bg-white"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
-      {/* TRACK */}
+
+      {/* ARROWS OUTSIDE FULL SLIDE */}
+      <button
+        onClick={prev}
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-50
+                   w-14 h-14 bg-white/30 hover:bg-white/60
+                   backdrop-blur text-white rounded-r-full flex items-center justify-center"
+      >
+        ‹
+      </button>
+
+      <button
+        onClick={next}
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-50
+                   w-14 h-14 bg-white/30 hover:bg-white/60
+                   backdrop-blur text-white rounded-l-full flex items-center justify-center"
+      >
+        ›
+      </button>
+
+      {/* SLIDER TRACK */}
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={{
@@ -117,100 +109,84 @@ export default function BigHeroSlider() {
         {slides.map((post, i) => (
           <div
             key={post.id}
-            className="relative w-full flex-shrink-0"
+            className="w-full flex-shrink-0"
             style={{ width: `${100 / slides.length}%` }}
           >
-            {/* SLIDE WRAPPER */}
-            <div className="relative h-[300px] md:h-[620px] overflow-hidden">
-              {/* BACKGROUND */}
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-orange-300 to-pink-300" />
+            <div className="grid md:grid-cols-2 h-[520px]">
 
-              {/* PATTERN */}
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_#fff_1px,_transparent_1px)] [background-size:30px_30px]" />
+              {/* LEFT ORANGE SKEW AREA */}
+              <div className="relative flex items-center px-10 overflow-hidden">
 
-              {/* CONTENT */}
-              <div className="relative z-10 h-full w-full grid lg:grid-cols-2 items-center">
-                
-                {/* LEFT CONTENT */}
-                <div className="px-6 md:px-14 lg:px-20 py-10 text-white">
-                  
-                  <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 px-5 py-2 rounded-full text-sm font-semibold mb-6">
+                {/* NO WHITE BACKGROUND FIX */}
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-orange-300 to-pink-300" />
+
+                <div className="relative text-white max-w-xl">
+
+                  <div className="bg-white/20 backdrop-blur px-4 py-2 rounded-full text-xs w-fit mb-5">
                     ✨ FUN • SMART • CAMPUS
                   </div>
 
                   <h1
-                    className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight drop-shadow-lg"
+                    className="text-4xl md:text-5xl font-black leading-tight"
                     dangerouslySetInnerHTML={{
                       __html: post.title.rendered,
                     }}
                   />
 
-                  <p className="mt-6 text-base md:text-xl text-white/90 max-w-2xl">
+                  <p className="mt-4 text-white/90">
                     Raih kesempatan menjadi mahasiswa cerdas, aktif, dan berprestasi.
                   </p>
 
-                  <div className="mt-8 flex gap-4">
-                    <Link
-                      href={post.link}
-                      className="inline-flex items-center gap-3 bg-white text-orange-500 font-bold px-7 py-4 rounded-2xl shadow-2xl hover:scale-105 transition"
-                    >
-                      Baca Selengkapnya →
-                    </Link>
+                  <Link
+                    href={`https://komunikasi.uinsgd.ac.id/agenda/${post.slug}`}
+                    className="inline-block mt-6 bg-white text-orange-500 font-bold px-6 py-3 rounded-xl"
+                  >
+                    Baca Selengkapnya →
+                  </Link>
+
+                </div>
+              </div>
+
+              {/* RIGHT IMAGE FULL COVER FIX */}
+              <div className="relative overflow-hidden">
+
+                <div className="absolute inset-0">
+                  <img
+                    src={getImage(post)}
+                    alt={post.title.rendered}
+                    className="w-full h-full object-cover scale-125"
+                    style={{
+                      transform: `translateX(${(index - i) * 40}px) scale(1.25)`,
+                    }}
+                  />
+                </div>
+
+                {/* gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-l from-black/10 to-transparent" />
+
+                {/* DOTS INSIDE IMAGE */}
+                <div className="absolute bottom-5 right-5 z-30">
+                  <div className="bg-black/40 backdrop-blur px-3 py-2 rounded-full flex gap-2">
+                    {slides.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setIndex(i)}
+                        className={`transition-all rounded-full ${
+                          index === i
+                            ? "w-6 h-2 bg-orange-300"
+                            : "w-2 h-2 bg-white/60"
+                        }`}
+                      />
+                    ))}
                   </div>
                 </div>
 
-                {/* RIGHT IMAGE */}
-                <div className="relative h-full hidden lg:block">
-                  <div className="absolute inset-0 clip-diagonal overflow-hidden">
-                    <img
-                      src={getImage(post)}
-                      alt={post.title.rendered}
-                      className="w-full h-full object-cover"
-                      loading={i === 0 ? "eager" : "lazy"}
-                    />
-                  </div>
-                </div>
               </div>
+
             </div>
           </div>
         ))}
       </div>
-
-      {/* PREV */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/90 text-black shadow-xl hover:scale-110 transition"
-      >
-        ❮
-      </button>
-
-      {/* NEXT */}
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/90 text-black shadow-xl hover:scale-110 transition"
-      >
-        ❯
-      </button>
-
-      {/* DOTS */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-30">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setIndex(i)}
-            className={`h-3 rounded-full transition-all duration-300 ${
-              index === i ? "w-10 bg-white" : "w-3 bg-white/50"
-            }`}
-          />
-        ))}
-      </div>
-
-      {/* CLIP PATH */}
-      <style jsx>{`
-        .clip-diagonal {
-          clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
-        }
-      `}</style>
     </section>
   );
 }
