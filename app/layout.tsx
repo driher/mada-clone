@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
+/* ================= METADATA ================= */
 export const metadata: Metadata = {
   metadataBase: new URL("https://komunikasi.uinsgd.ac.id"),
   title: "Ilkom UIN SGD Bandung",
@@ -50,8 +50,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <head>
-
-        {/* ================= GOOGLE ANALYTICS 4 ================= */}
+        {/* ================= GA4 ================= */}
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-FJ4R6P1CDB"
@@ -62,13 +61,9 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
-            gtag('config', 'G-FJ4R6P1CDB', {
-              page_path: window.location.pathname,
-            });
+            gtag('config', 'G-FJ4R6P1CDB');
           `}
         </Script>
-
       </head>
 
       <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
@@ -76,21 +71,18 @@ export default function RootLayout({
         {/* ================= PWA ================= */}
         <PWAInstall />
 
-        {/* ================= NAVBAR ================= */}
+        {/* ================= NAVBAR (FULL BLEED) ================= */}
         <Navbar />
 
-        {/* ================= CONTENT ================= */}
-        <main className="flex-1">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* ================= MAIN LAYOUT ================= */}
+        <main className="flex-1 flex flex-col">
 
-            <div className="bg-white shadow-xl shadow-black/5 rounded-2xl border border-slate-100 overflow-hidden">
-              {children}
-            </div>
+          {/* PAGE CONTENT (FULL WIDTH CONTROLLED BY PAGE) */}
+          {children}
 
-          </div>
         </main>
 
-        {/* ================= FOOTER ================= */}
+        {/* ================= FOOTER (FULL BLEED) ================= */}
         <Footer />
 
       </body>
