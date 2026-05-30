@@ -6,11 +6,10 @@ const Footer = () => {
         {/* BRAND */}
         <div>
           <h2 className="text-white text-2xl font-bold mb-3 tracking-tight">
-            Ilmu Komunikasi
+           Program Studi Ilmu Komunikasi
           </h2>
           <p className="text-sm text-gray-400 leading-relaxed">
-            Program studi komunikasi modern, media digital, dan kehumasan profesional.
-          </p>
+HUMAS | JURNALISTIK          </p>
           <div className="w-12 h-1 bg-green-500 mt-4 rounded" />
         </div>
 
@@ -21,8 +20,7 @@ const Footer = () => {
             <li><a href="/">Beranda</a></li>
             <li><a href="https://damba.uinsgd.ac.id/auth/login">PMB</a></li>
             <li><a href="/profil">Profil</a></li>
-            <li><a href="/kontak">Kontak</a></li>
-          </ul>
+            </ul>
         </div>
 
         {/* KONTAK */}
@@ -30,7 +28,7 @@ const Footer = () => {
           <h3 className="text-white font-semibold mb-4">Kontak</h3>
           <ul className="space-y-2 text-sm text-gray-400">
             <li>Email: ilkom@uinsgd.ac.id</li>
-            <li>Aalamat: Jl. AH Nasution No. 105</li>
+            <li>Alamat: Jl. AH Nasution No. 105</li>
             <li>Cibiru Ujungberung, Bandung, Jawa Barat</li>
           </ul>
         </div>
