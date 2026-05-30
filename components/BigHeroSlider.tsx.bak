@@ -238,7 +238,7 @@ export default function BigHeroSlider() {
                     </Link>
 
                     <Link
-                      href="/pendaftaran"
+                      href="/https://damba.uinsgd.ac.id/auth/login"
                       className="
                         px-7
                         py-3

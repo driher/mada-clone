@@ -180,8 +180,8 @@ export default function BigHeroSlider() {
                   </div>
 
                   <p className="mt-5 text-base md:text-xl text-white/90 max-w-2xl">
-                    Mencetak komunikator, jurnalis, dan praktisi media
-                    yang berintegritas di era digital.
+                    Mencetak komunikator, jurnalis, praktisi media dan humas
+                    profesional di era digital
                   </p>
 
                   {/* FEATURES */}
