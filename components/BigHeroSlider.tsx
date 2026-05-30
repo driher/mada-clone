@@ -267,7 +267,7 @@ export default function BigHeroSlider() {
                         <br />
                         Radio
                         <br />
-                        Akademika
+                        Prodikom
                       </div>
 
                       <div>

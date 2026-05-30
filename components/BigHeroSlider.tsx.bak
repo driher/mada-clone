@@ -180,7 +180,7 @@ export default function BigHeroSlider() {
               {/* CONTENT */}
 
               <div className="absolute inset-0 z-20 flex items-center">
-                <div className="w-full max-w-7xl pl-6 pr-8 md:pl-12 md:pr-16">
+                <div className="w-full max-w-7xl pl-6 pr-8 ml-4 md:ml-8 md:pl-12 md:pr-16">
                   <div className="max-w-3xl text-white">
                     <div
                       className="

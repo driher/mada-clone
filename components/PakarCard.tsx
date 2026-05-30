@@ -1,0 +1,81 @@
+import Link from "next/link";
+
+interface PakarCardProps {
+  item: {
+    id: number;
+    slug?: string;
+    title?: { rendered?: string };
+    _embedded?: any;
+  };
+}
+
+export default function PakarCard({ item }: PakarCardProps) {
+  const nama = item?.title?.rendered || "Tanpa Nama";
+
+  const slug = item?.slug || item?.id;
+
+  const featuredImage =
+    item?._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null;
+
+  const initials = nama
+    .split(" ")
+    .filter(Boolean)
+    .map((word) => word?.[0] || "")
+    .join("")
+    .substring(0, 2)
+    .toUpperCase();
+
+  return (
+    <div className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-300">
+
+      {/* HEADER */}
+      <div className="h-28 bg-gradient-to-r from-green-800 via-green-700 to-emerald-500" />
+
+      {/* CONTENT */}
+      <div className="px-6 pb-6 relative">
+
+        {/* AVATAR */}
+        <div className="flex justify-center">
+          {featuredImage ? (
+            <img
+              src={featuredImage}
+              alt={nama}
+              className="w-28 h-28 rounded-full border-[6px] border-white object-cover shadow-lg absolute -top-14 bg-white"
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-28 h-28 rounded-full border-[6px] border-white bg-green-700 text-white flex items-center justify-center text-3xl font-bold shadow-lg absolute -top-14">
+              {initials || "?"}
+            </div>
+          )}
+        </div>
+
+        {/* INFO */}
+        <div className="pt-20 text-center">
+
+          <span className="inline-flex items-center rounded-full bg-green-100 px-4 py-1 text-xs font-medium text-green-700">
+            Pakar UIN Sunan Gunung Djati Bandung
+          </span>
+
+          <h3 className="text-xl font-bold mt-4 text-gray-900">
+            {nama}
+          </h3>
+
+          <p className="text-sm text-gray-500 mt-3 leading-6">
+            Direktori pakar, profesional, akademisi, dan praktisi Ilkom UIN SGD.
+          </p>
+
+          {/* BUTTON */}
+          <Link
+            href={`/pakar/${slug}`}
+            className="mt-6 inline-flex items-center justify-center w-full rounded-2xl bg-green-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-800"
+          >
+            Lihat Profil
+          </Link>
+
+        </div>
+
+      </div>
+    </div>
+  );
+}
