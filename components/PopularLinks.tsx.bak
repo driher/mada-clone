@@ -3,9 +3,9 @@ import Image from "next/image";
 
 export default function PopularLinks() {
   const links = [
-    { label: "Pendaftaran PMB", url: "https://damba.uinsgd.ac.id/" },
+    { label: "Pendaftaran PMB", url: "https://pmb.uinsgd.ac.id/tarif-ukt/" },
     { label: "Pusat Karir", url: "https://cdc.uinsgd.ac.id/" },
-    { label: "Kanal Video", url: "https://www.youtube.com/channel/UCZdcQSCXzAPAOsu7xEEB9FQ" },
+    { label: "Kanal Video", url: "https://damba.uinsgd.ac.id/" },
     { label: "Biaya UKT", url: "https://pmb.uinsgd.ac.id/tarif-ukt/" },
     { label: "Informasi Publik", url: "https://ppid.uinsgd.ac.id/" },
     { label: "JDIH", url: "https://jdih.uinsgd.ac.id/" },

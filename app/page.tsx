@@ -4,6 +4,7 @@ import AgendaSlider from "@/components/AgendaSlider";
 import PopularLinks from "@/components/PopularLinks";
 import AcademicAnnouncement from "@/components/AcademicAnnouncement";
 import ProfileCard from "@/components/ProfileCard";
+import Link from "next/link";
 
 import {
   getKetuaJurusan,
@@ -57,29 +58,7 @@ export default async function Home() {
         <BigHeroSlider />
       </section>
 
-      {/* ================= FEATURE STRIP ================= */}
-      <section className="max-w-6xl mx-auto px-4 mt-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-
-          {[
-            ["📢", "Pengumuman"],
-            ["📰", "Berita Kampus"],
-            ["📅", "Agenda"],
-            ["🎓", "Prestasi"],
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-4 text-center border"
-            >
-              <div className="text-2xl">{item[0]}</div>
-              <div className="text-sm font-semibold mt-1">{item[1]}</div>
-            </div>
-          ))}
-
-        </div>
-      </section>
-
-      {/* ================= MAIN CONTENT ================= */}
+       {/* ================= MAIN CONTENT ================= */}
       <section className="max-w-6xl mx-auto px-4 py-10 space-y-16">
 
         {/* NEWS */}

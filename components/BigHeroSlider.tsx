@@ -5,7 +5,9 @@ import Link from "next/link";
 
 type Post = {
   id: number;
-  title: { rendered: string };
+  title: {
+    rendered: string;
+  };
   slug: string;
   _embedded?: any;
 };
@@ -17,16 +19,18 @@ export default function BigHeroSlider() {
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // ================= FETCH =================
   useEffect(() => {
     const fetchSlides = async () => {
       try {
         const res = await fetch(
           "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?_embed=wp:featuredmedia&categories=43&per_page=10&orderby=date&order=desc",
-          { cache: "no-store" }
+          {
+            cache: "no-store",
+          }
         );
 
         const data = await res.json();
+
         setSlides(Array.isArray(data) ? data : []);
       } catch {
         setSlides([]);
@@ -36,26 +40,31 @@ export default function BigHeroSlider() {
     fetchSlides();
   }, []);
 
-  // ================= AUTO SLIDE =================
   useEffect(() => {
     if (slides.length <= 1) return;
 
-    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
 
     if (!isPaused) {
       intervalRef.current = setInterval(() => {
-        setIndex((p) => (p + 1) % slides.length);
+        setIndex((prev) => (prev + 1) % slides.length);
       }, 6000);
     }
 
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
   }, [slides, isPaused]);
 
   const getImage = (post: any) => {
     const media = post?._embedded?.["wp:featuredmedia"]?.[0];
+
     return (
+      media?.media_details?.sizes?.full?.source_url ||
       media?.media_details?.sizes?.large?.source_url ||
       media?.source_url ||
       "/no-image.jpg"
@@ -63,42 +72,69 @@ export default function BigHeroSlider() {
   };
 
   const prev = () =>
-    setIndex((p) => (p - 1 + slides.length) % slides.length);
+    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
 
   const next = () =>
-    setIndex((p) => (p + 1) % slides.length);
+    setIndex((prev) => (prev + 1) % slides.length);
 
   if (!slides.length) {
-    return <div className="h-[520px] w-full bg-gray-200 animate-pulse" />;
+    return (
+      <div className="w-full h-[560px] bg-slate-200 animate-pulse rounded-2xl" />
+    );
   }
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-white"
+      className="relative overflow-hidden rounded-2xl"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-
-      {/* ARROWS OUTSIDE FULL SLIDE */}
+      {/* ARROW LEFT */}
       <button
         onClick={prev}
-        className="absolute left-0 top-1/2 -translate-y-1/2 z-50
-                   w-14 h-14 bg-white/30 hover:bg-white/60
-                   backdrop-blur text-white rounded-r-full flex items-center justify-center"
+        className="
+          absolute
+          left-0
+          top-1/2
+          -translate-y-1/2
+          z-40
+          w-14
+          h-14
+          rounded-r-full
+          bg-black/30
+          backdrop-blur
+          text-white
+          text-3xl
+          hover:bg-black/50
+          transition
+        "
       >
         ‹
       </button>
 
+      {/* ARROW RIGHT */}
       <button
         onClick={next}
-        className="absolute right-0 top-1/2 -translate-y-1/2 z-50
-                   w-14 h-14 bg-white/30 hover:bg-white/60
-                   backdrop-blur text-white rounded-l-full flex items-center justify-center"
+        className="
+          absolute
+          right-0
+          top-1/2
+          -translate-y-1/2
+          z-40
+          w-14
+          h-14
+          rounded-l-full
+          bg-black/30
+          backdrop-blur
+          text-white
+          text-3xl
+          hover:bg-black/50
+          transition
+        "
       >
         ›
       </button>
 
-      {/* SLIDER TRACK */}
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={{
@@ -106,83 +142,137 @@ export default function BigHeroSlider() {
           transform: `translateX(-${index * (100 / slides.length)}%)`,
         }}
       >
-        {slides.map((post, i) => (
+        {slides.map((post, slideIndex) => (
           <div
             key={post.id}
-            className="w-full flex-shrink-0"
-            style={{ width: `${100 / slides.length}%` }}
+            className="relative flex-shrink-0"
+            style={{
+              width: `${100 / slides.length}%`,
+            }}
           >
-            <div className="grid md:grid-cols-2 h-[520px]">
+            <div className="relative h-[560px]">
+              {/* IMAGE */}
+             <img
+  src={getImage(post)}
+  alt={post.title.rendered}
+  className="absolute inset-0 w-full h-full object-contain"
+  style={{
+    transition: "all .5s ease",
+  }}
+/>
 
-              {/* LEFT ORANGE SKEW AREA */}
-              <div className="relative flex items-center px-10 pl-20 overflow-hidden">
+              {/* OVERLAY */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#071A52]/95 via-[#08285e]/75 to-transparent" />
 
-                {/* NO WHITE BACKGROUND FIX */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-orange-300 to-pink-300" />
-
-                <div className="relative text-white max-w-xl">
-
-                  <div className="bg-white/20 backdrop-blur px-4 py-2 rounded-full text-xs w-fit mb-5">
-                    ✨ FUN • SMART • CAMPUS
+              {/* CONTENT */}
+              <div className="absolute inset-0 z-20 flex items-center">
+                <div className="max-w-3xl px-8 md:px-16 text-white">
+                  <div className="uppercase tracking-wider font-bold text-yellow-400 text-sm md:text-lg">
+                    Program Studi
                   </div>
 
-                  <h1
-                    className="text-4xl md:text-5xl font-black leading-tight"
-                    dangerouslySetInnerHTML={{
-                      __html: post.title.rendered,
-                    }}
-                  />
+                  <h1 className="mt-2 text-4xl md:text-7xl font-black leading-tight">
+                    ILMU KOMUNIKASI
+                  </h1>
 
-                  <p className="mt-4 text-white/90">
-                    Raih kesempatan menjadi mahasiswa cerdas, aktif, dan berprestasi.
+                  <div className="mt-2 text-yellow-400 font-bold text-lg md:text-3xl">
+                    UIN SUNAN GUNUNG DJATI BANDUNG
+                  </div>
+
+                  <p className="mt-5 text-base md:text-xl text-white/90 max-w-2xl">
+                    Mencetak komunikator, jurnalis, dan praktisi media
+                    yang berintegritas di era digital.
                   </p>
 
-                  <Link
-                    href={`https://komunikasi.uinsgd.ac.id/agenda/${post.slug}`}
-                    className="inline-block mt-6 bg-white text-orange-500 font-bold px-6 py-3 rounded-xl"
-                  >
-                    Baca Selengkapnya →
-                  </Link>
+                  {/* FEATURES */}
+                  <div className="flex flex-wrap gap-6 mt-8 text-sm md:text-base">
+                    <div>
+                      🏅
+                      <br />
+                      Akreditasi
+                      <br />
+                      Unggul
+                    </div>
 
-                </div>
-              </div>
+                    <div>
+                      💻
+                      <br />
+                      Laboratorium
+                      <br />
+                      Media Modern
+                    </div>
 
-              {/* RIGHT IMAGE FULL COVER FIX */}
-              <div className="relative overflow-hidden">
+                    <div>
+                      🎙️
+                      <br />
+                      Radio
+                      <br />
+                      Akademika
+                    </div>
 
-                <div className="absolute inset-0">
-                  <img
-                    src={getImage(post)}
-                    alt={post.title.rendered}
-                    className="w-full h-full object-cover scale-125"
-                    style={{
-                      transform: `translateX(${(index - i) * 40}px) scale(1.25)`,
-                    }}
-                  />
-                </div>
+                    <div>
+                      🤝
+                      <br />
+                      Jejaring
+                      <br />
+                      Industri
+                    </div>
+                  </div>
 
-                {/* gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-l from-black/10 to-transparent" />
+                  {/* BUTTONS */}
+                  <div className="flex flex-wrap gap-4 mt-10">
+                    <Link
+                      href="/profil"
+                      className="
+                        px-7
+                        py-3
+                        rounded-xl
+                        bg-yellow-500
+                        text-slate-900
+                        font-bold
+                        hover:bg-yellow-400
+                        transition
+                      "
+                    >
+                      Profil Prodi
+                    </Link>
 
-                {/* DOTS INSIDE IMAGE */}
-                <div className="absolute bottom-5 right-5 z-30">
-                  <div className="bg-black/40 backdrop-blur px-3 py-2 rounded-full flex gap-2">
-                    {slides.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setIndex(i)}
-                        className={`transition-all rounded-full ${
-                          index === i
-                            ? "w-6 h-2 bg-orange-300"
-                            : "w-2 h-2 bg-white/60"
-                        }`}
-                      />
-                    ))}
+                    <Link
+                      href="/https://damba.uinsgd.ac.id/auth/login"
+                      className="
+                        px-7
+                        py-3
+                        rounded-xl
+                        border
+                        border-white/30
+                        bg-white/10
+                        backdrop-blur
+                        hover:bg-white/20
+                        transition
+                      "
+                    >
+                      Informasi Pendaftaran
+                    </Link>
                   </div>
                 </div>
-
               </div>
 
+              {/* DOTS */}
+              <div className="absolute bottom-6 right-6 z-30">
+                <div className="flex gap-2 bg-black/30 backdrop-blur px-4 py-3 rounded-full">
+                  {slides.map((_, dotIndex) => (
+                    <button
+                      key={dotIndex}
+                      onClick={() => setIndex(dotIndex)}
+                      className={`transition-all rounded-full ${
+                        index === dotIndex
+                          ? "w-8 h-2 bg-yellow-400"
+                          : "w-2 h-2 bg-white/60"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         ))}
