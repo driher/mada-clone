@@ -22,7 +22,7 @@ export default function BigHeroSlider() {
     const fetchSlides = async () => {
       try {
         const res = await fetch(
-          "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?_embed=wp:featuredmedia&categories=63&per_page=10&orderby=date&order=desc",
+          "https://cms.komunikasi.uinsgd.ac.id/wp-json/wp/v2/posts?_embed=wp:featuredmedia&categories=43&per_page=10&orderby=date&order=desc",
           { cache: "no-store" }
         );
 

@@ -47,58 +47,87 @@ export default async function Home() {
   const getContent = (post: any) =>
     (post?.excerpt?.rendered || post?.content?.rendered || "")
       .replace(/<[^>]*>/g, "")
-      .slice(0, 300);
+      .slice(0, 220);
 
   return (
-    <>
-      {/* ================= HERO FULL BLEED ================= */}
-      <section className="w-full">
+    <div className="overflow-x-hidden bg-slate-50">
+
+      {/* ================= HERO ================= */}
+      <section className="w-full overflow-hidden">
         <BigHeroSlider />
       </section>
 
-      {/* ================= FRAMED CONTENT ================= */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-14">
+      {/* ================= FEATURE STRIP ================= */}
+      <section className="max-w-6xl mx-auto px-4 mt-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+          {[
+            ["📢", "Pengumuman"],
+            ["📰", "Berita Kampus"],
+            ["📅", "Agenda"],
+            ["🎓", "Prestasi"],
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-4 text-center border"
+            >
+              <div className="text-2xl">{item[0]}</div>
+              <div className="text-sm font-semibold mt-1">{item[1]}</div>
+            </div>
+          ))}
+
+        </div>
+      </section>
+
+      {/* ================= MAIN CONTENT ================= */}
+      <section className="max-w-6xl mx-auto px-4 py-10 space-y-16">
 
         {/* NEWS */}
         <div>
-          <h2 className="text-3xl font-bold mb-4">📰 Berita</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+            📰 Berita Terbaru
+          </h2>
           <NewsModern posts={beritaPosts} />
         </div>
 
         {/* AGENDA */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">📅 Agenda</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-4">
+            📅 Agenda Kampus
+          </h2>
           <AgendaSlider posts={agendaPosts} />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* ANNOUNCEMENT + PRESTASI */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-  {/* PENGUMUMAN (2/3) */}
-  <div className="lg:col-span-2">
-    <h2 className="text-2xl font-bold mb-0">📢 Pengumuman</h2>
-    <AcademicAnnouncement />
-  </div>
+          {/* PENGUMUMAN */}
+          <div className="lg:col-span-7 bg-white rounded-2xl p-5 shadow-sm border">
+            <h2 className="text-xl font-bold mb-3">📢 Pengumuman Akademik</h2>
+            <AcademicAnnouncement />
+          </div>
 
-  {/* PRESTASI (1/3) */}
-  {prestasi && (
-    <div className="lg:col-span-1">
-      <div className="rounded-2xl overflow-hidden shadow-xl max-width:768px) 100vw, 33vw">
-      
-        <img
-          src={getImage(prestasi)}
-          className="w-full h-full object-cover"
-        />
-      </div>
-    </div>
-  )}
+          {/* PRESTASI */}
+          {prestasi && (
+            <div className="lg:col-span-5">
+              <div className="rounded-2xl overflow-hidden shadow-xl border bg-white">
+                <img
+                  src={getImage(prestasi)}
+                  alt="Prestasi"
+                  className="w-full h-64 sm:h-72 lg:h-full object-cover"
+                />
+              </div>
+            </div>
+          )}
 
-</div>
+        </div>
 
         {/* LINKS */}
         <PopularLinks />
 
-        {/* PROFILE */}
-        <div className="space-y-6">
+        {/* PROFILE SECTION */}
+        <div className="grid md:grid-cols-2 gap-6">
+
           {ketua && (
             <ProfileCard
               label="Ketua Jurusan"
@@ -138,9 +167,10 @@ export default async function Home() {
               color="orange"
             />
           )}
+
         </div>
 
       </section>
-    </>
+    </div>
   );
 }
