@@ -294,7 +294,17 @@ DESKTOP NAVBAR
         ========================== */}
 
 
-        <div className="lg:hidden ml-auto z-[99999]">
+        	<div
+  className="
+    fixed
+    top-24
+    left-0
+    right-0
+    bottom-0
+    bg-red-500
+    z-[99999]
+  "
+>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="
