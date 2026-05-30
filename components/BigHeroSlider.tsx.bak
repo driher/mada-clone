@@ -79,7 +79,7 @@ export default function BigHeroSlider() {
 
   if (!slides.length) {
     return (
-      <div className="w-full h-[560px] bg-slate-200 animate-pulse rounded-2xl" />
+      <div className="w-full h-[680px] bg-slate-200 animate-pulse rounded-2xl" />
     );
   }
 
@@ -89,7 +89,7 @@ export default function BigHeroSlider() {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* ARROW LEFT */}
+      {/* LEFT ARROW */}
       <button
         onClick={prev}
         className="
@@ -112,7 +112,7 @@ export default function BigHeroSlider() {
         ‹
       </button>
 
-      {/* ARROW RIGHT */}
+      {/* RIGHT ARROW */}
       <button
         onClick={next}
         className="
@@ -150,109 +150,171 @@ export default function BigHeroSlider() {
               width: `${100 / slides.length}%`,
             }}
           >
-            <div className="relative h-[560px]">
-              {/* IMAGE */}
-             <img
-  src={getImage(post)}
-  alt={post.title.rendered}
-  className="absolute inset-0 w-full h-full object-contain"
-  style={{
-    transition: "all .5s ease",
-  }}
-/>
+            <div className="relative h-[620px] lg:h-[680px]">
+              {/* BACKGROUND IMAGE */}
+              <img
+                src={getImage(post)}
+                alt={post.title.rendered}
+                className="
+                  absolute
+                  inset-0
+                  w-full
+                  h-full
+                  object-cover
+                  object-center
+                "
+              />
 
               {/* OVERLAY */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#071A52]/95 via-[#08285e]/75 to-transparent" />
+              <div
+                className="
+                  absolute
+                  inset-0
+                  bg-gradient-to-r
+                  from-[#071A52]/92
+                  via-[#08285e]/72
+                  to-transparent
+                "
+              />
 
               {/* CONTENT */}
+
               <div className="absolute inset-0 z-20 flex items-center">
-                <div className="max-w-3xl px-8 md:px-16 text-white">
-                  <div className="uppercase tracking-wider font-bold text-yellow-400 text-sm md:text-lg">
-                    Program Studi
-                  </div>
-
-                  <h1 className="mt-2 text-4xl md:text-7xl font-black leading-tight">
-                    ILMU KOMUNIKASI
-                  </h1>
-
-                  <div className="mt-2 text-yellow-400 font-bold text-lg md:text-3xl">
-                    UIN SUNAN GUNUNG DJATI BANDUNG
-                  </div>
-
-                  <p className="mt-5 text-base md:text-xl text-white/90 max-w-2xl">
-                    Mencetak komunikator, jurnalis, dan praktisi media
-                    yang berintegritas di era digital.
-                  </p>
-
-                  {/* FEATURES */}
-                  <div className="flex flex-wrap gap-6 mt-8 text-sm md:text-base">
-                    <div>
-                      🏅
-                      <br />
-                      Akreditasi
-                      <br />
-                      Unggul
-                    </div>
-
-                    <div>
-                      💻
-                      <br />
-                      Laboratorium
-                      <br />
-                      Media Modern
-                    </div>
-
-                    <div>
-                      🎙️
-                      <br />
-                      Radio
-                      <br />
-                      Akademika
-                    </div>
-
-                    <div>
-                      🤝
-                      <br />
-                      Jejaring
-                      <br />
-                      Industri
-                    </div>
-                  </div>
-
-                  {/* BUTTONS */}
-                  <div className="flex flex-wrap gap-4 mt-10">
-                    <Link
-                      href="/profil"
+                <div className="w-full max-w-7xl pl-6 pr-8 md:pl-12 md:pr-16">
+                  <div className="max-w-3xl text-white">
+                    <div
                       className="
-                        px-7
-                        py-3
-                        rounded-xl
-                        bg-yellow-500
-                        text-slate-900
+                        text-yellow-400
+                        uppercase
                         font-bold
-                        hover:bg-yellow-400
-                        transition
+                        tracking-wide
+                        text-sm
+                        md:text-lg
+                        mb-3
                       "
                     >
-                      Profil Prodi
-                    </Link>
+                      Program Studi
+                    </div>
 
-                    <Link
-                      href="/https://damba.uinsgd.ac.id/auth/login"
+                    <h1
                       className="
-                        px-7
-                        py-3
-                        rounded-xl
-                        border
-                        border-white/30
-                        bg-white/10
-                        backdrop-blur
-                        hover:bg-white/20
-                        transition
+                        text-4xl
+                        md:text-7xl
+                        font-black
+                        leading-[0.9]
                       "
                     >
-                      Informasi Pendaftaran
-                    </Link>
+                      ILMU KOMUNIKASI
+                    </h1>
+
+                    <div
+                      className="
+                        mt-3
+                        text-yellow-400
+                        font-bold
+                        text-lg
+                        md:text-3xl
+                      "
+                    >
+                      UIN SUNAN GUNUNG DJATI BANDUNG
+                    </div>
+
+                    <p
+                      className="
+                        mt-6
+                        text-base
+                        md:text-xl
+                        text-white/90
+                        leading-relaxed
+                        max-w-2xl
+                      "
+                    >
+                      Mencetak komunikator, jurnalis, praktisi media,
+                      dan humas profesional yang unggul,
+                      adaptif, kreatif, serta berdaya saing global
+                      di era transformasi digital.
+                    </p>
+
+                    {/* FEATURES */}
+                    <div
+                      className="
+                        flex
+                        flex-wrap
+                        gap-8
+                        mt-8
+                        text-sm
+                        md:text-base
+                      "
+                    >
+                      <div>
+                        🏅
+                        <br />
+                        Akreditasi
+                        <br />
+                        Unggul
+                      </div>
+
+                      <div>
+                        💻
+                        <br />
+                        Laboratorium
+                        <br />
+                        Media Modern
+                      </div>
+
+                      <div>
+                        🎙️
+                        <br />
+                        Radio
+                        <br />
+                        Akademika
+                      </div>
+
+                      <div>
+                        🤝
+                        <br />
+                        Jejaring
+                        <br />
+                        Industri
+                      </div>
+                    </div>
+
+                    {/* BUTTONS */}
+                    <div className="flex flex-wrap gap-4 mt-10">
+                      <Link
+                        href="/profil"
+                        className="
+                          px-7
+                          py-3
+                          rounded-xl
+                          bg-yellow-500
+                          text-slate-900
+                          font-bold
+                          hover:bg-yellow-400
+                          transition-all
+                        "
+                      >
+                        Profil Prodi
+                      </Link>
+
+                      <Link
+                        href="https://damba.uinsgd.ac.id/auth/login"
+                        target="_blank"
+                        className="
+                          px-7
+                          py-3
+                          rounded-xl
+                          border
+                          border-white/30
+                          bg-white/10
+                          backdrop-blur
+                          hover:bg-white/20
+                          transition-all
+                        "
+                      >
+                        Informasi Pendaftaran
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

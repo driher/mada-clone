@@ -6,9 +6,13 @@ const Footer = () => {
         {/* BRAND */}
         <div>
           <h2 className="text-white text-2xl font-bold mb-3 tracking-tight">
-           Program Studi Ilmu Komunikasi
+           Program Studi
           </h2>
-          <p className="text-sm text-gray-400 leading-relaxed">
+          <h2 className="text-white text-2xl font-bold mb-3 tracking-tight">
+           Ilmu Komunikasi
+          </h2>
+
+	  <p className="text-sm text-gray-400 leading-relaxed">
 HUMAS | JURNALISTIK          </p>
           <div className="w-12 h-1 bg-green-500 mt-4 rounded" />
         </div>
