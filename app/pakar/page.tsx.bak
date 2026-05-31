@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PakarCard from "../../components/PakarCard";
 import SearchBox from "../../components/SearchBox";
 import SidebarFilter from "../../components/SidebarFilter";
@@ -11,6 +11,9 @@ export default function PakarPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // ======================
+  // FETCH DATA
+  // ======================
   useEffect(() => {
     async function fetchData() {
       try {
@@ -25,18 +28,18 @@ export default function PakarPage() {
         );
 
         if (!res.ok) {
-          throw new Error(`HTTP Error: ${res.status}`);
+          throw new Error(`HTTP Error ${res.status}`);
         }
 
         const json = await res.json();
 
         if (!Array.isArray(json)) {
-          throw new Error("Format data API tidak valid");
+          throw new Error("Format API tidak valid");
         }
 
         setData(json);
       } catch (err: any) {
-        console.error("ERROR PAKAR:", err);
+        console.error(err);
         setError(err.message || "Gagal mengambil data");
         setData([]);
       } finally {
@@ -47,10 +50,63 @@ export default function PakarPage() {
     fetchData();
   }, []);
 
-  const filtered = data.filter((item) => {
-    const nama = item?.title?.rendered?.toLowerCase() || "";
-    return nama.includes(search.toLowerCase());
+  // ======================
+// FILTER
+// ======================
+const filtered = useMemo(() => {
+  return data
+    .filter((item) => {
+      const nama =
+        item?.title?.rendered?.toLowerCase() || "";
+
+      const bidang =
+        item?.custom_fields?.bidang_keahlian?.toLowerCase() || "";
+
+      const keyword = search.toLowerCase();
+
+      const bidangOptions = useMemo(() => {
+  const set = new Set<string>();
+
+  data.forEach((item) => {
+    const bidang =
+      item?.custom_fields?.bidang_keahlian;
+
+    if (bidang && typeof bidang === "string" && bidang.trim()) {
+      set.add(bidang.trim());
+    }
   });
+
+  return Array.from(set).sort();
+}, [data]);
+
+      return (
+        nama.includes(keyword) ||
+        bidang.includes(keyword)
+      );
+    })
+    .sort((a, b) =>
+      (a?.title?.rendered || "").localeCompare(
+        b?.title?.rendered || ""
+      )
+    );
+}, [data, search]);
+
+  // ======================
+  // TOTAL BIDANG
+  // ======================
+  const totalBidang = useMemo(() => {
+    const bidangSet = new Set<string>();
+
+    data.forEach((item) => {
+      const bidang = item?.custom_fields?.bidang;
+
+      if (bidang && bidang.trim()) {
+        bidangSet.add(bidang.trim());
+      }
+    });
+
+    return bidangSet.size;
+  }, [data]);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-gray-50">
@@ -58,49 +114,67 @@ export default function PakarPage() {
       {/* HERO */}
       <section className="bg-gradient-to-r from-[#081A3A] via-[#102B63] to-[#F97316] pt-40 pb-16">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
 
             {/* LEFT */}
             <div>
-              <h1 className="text-5xl font-bold text-white leading-tight">
+
+              <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight">
                 Direktori Pakar
                 <br />
-                Prodi Ilmu Komunikasi <br/>
-		UIN Sunan Gunung Djati Bandung
+                Ilmu Komunikasi
               </h1>
 
-              <p className="text-green-100 mt-5 text-lg">
-                Temukan pakar, profesional, akademisi, dan praktisi terbaik.
+              <p className="text-white/80 mt-5 text-lg max-w-2xl">
+                Temukan akademisi, peneliti, praktisi,
+                dan narasumber terbaik Program Studi
+                Ilmu Komunikasi UIN Sunan Gunung Djati
+                Bandung.
               </p>
 
               <div className="mt-8">
-                <SearchBox value={search} onChange={setSearch} />
+                <SearchBox
+                  value={search}
+                  onChange={setSearch}
+                />
               </div>
+
             </div>
 
             {/* RIGHT */}
             <div className="grid grid-cols-2 gap-5">
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <div className="text-4xl font-bold text-green-700">
+
+              <div className="bg-white rounded-3xl p-6 shadow-xl">
+                <div className="text-5xl font-bold text-green-700">
                   {data.length}
                 </div>
-                <div className="text-gray-500 mt-2">Total Pakar</div>
+
+                <div className="text-gray-500 mt-2">
+                  Total Pakar
+                </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <div className="text-4xl font-bold text-green-700">
-                  100+
+              <div className="bg-white rounded-3xl p-6 shadow-xl">
+                <div className="text-5xl font-bold text-green-700">
+                  {totalBidang}
                 </div>
-                <div className="text-gray-500 mt-2">Bidang Keahlian</div>
+
+                <div className="text-gray-500 mt-2">
+                  Bidang Keahlian
+                </div>
               </div>
+
             </div>
 
           </div>
+
         </div>
       </section>
 
       {/* CONTENT */}
       <section className="max-w-7xl mx-auto px-4 py-10">
+
         <div className="grid lg:grid-cols-12 gap-8">
 
           {/* SIDEBAR */}
@@ -108,52 +182,67 @@ export default function PakarPage() {
             <SidebarFilter />
           </div>
 
-          {/* LIST */}
+          {/* CONTENT */}
           <div className="lg:col-span-9">
 
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Hasil Pencarian</h2>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-2">
+
+              <h2 className="text-3xl font-bold text-gray-900">
+                Daftar Pakar
+              </h2>
+
               <div className="text-gray-500">
                 {filtered.length} pakar ditemukan
               </div>
+
             </div>
 
             {/* ERROR */}
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl mb-4">
-                Gagal load data: {error}
+              <div className="bg-red-50 border border-red-200 text-red-600 rounded-2xl p-5 mb-6">
+                Gagal memuat data: {error}
               </div>
             )}
 
             {/* LOADING */}
             {loading && (
-              <div className="text-gray-500">
-                Loading data pakar...
+              <div className="bg-white rounded-2xl border p-10 text-center text-gray-500">
+                Memuat data pakar...
               </div>
             )}
 
             {/* EMPTY */}
-            {!loading && !error && filtered.length === 0 && (
-              <div className="bg-white rounded-2xl p-10 text-center border">
-                <h3 className="text-2xl font-bold text-gray-700">
-                  Data Pakar Belum Ada
-                </h3>
-                <p className="text-gray-500 mt-3">
-                  Pastikan endpoint WordPress sudah aktif dan berisi data.
-                </p>
-              </div>
-            )}
+            {!loading &&
+              !error &&
+              filtered.length === 0 && (
+                <div className="bg-white rounded-3xl border p-10 text-center">
+                  <h3 className="text-2xl font-bold text-gray-700">
+                    Data Tidak Ditemukan
+                  </h3>
+
+                  <p className="text-gray-500 mt-3">
+                    Tidak ada pakar yang sesuai
+                    dengan kata kunci pencarian.
+                  </p>
+                </div>
+              )}
 
             {/* GRID */}
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filtered.map((item) => (
-                <PakarCard key={item.id} item={item} />
-              ))}
-            </div>
+            {!loading && (
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filtered.map((item) => (
+                  <PakarCard
+                    key={item.id}
+                    item={item}
+                  />
+                ))}
+              </div>
+            )}
 
           </div>
 
         </div>
+
       </section>
 
     </main>

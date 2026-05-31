@@ -73,7 +73,7 @@ export default async function DetailPakar({
           <div className="px-8 pb-10 relative">
 
             {/* FOTO */}
-            <div className="absolute -top-24 left-8">
+            <div className="absolute -top-24 center-8">
               <img
                 src={foto}
                 alt={nama}
@@ -85,7 +85,7 @@ export default async function DetailPakar({
 
               {/* BADGE */}
               <span className="inline-flex items-center rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700">
-                Pakar MES Jawa Barat
+                Pakar Ilmu Komunikasi UIN Sunan Gunung Djati Bandung
               </span>
 
               {/* NAMA */}
@@ -98,7 +98,7 @@ export default async function DetailPakar({
 
               {/* BIDANG */}
               <p className="text-xl text-green-700 mt-3 font-medium">
-                {custom?.bidang ||
+                {custom?.["bidang"] ||
                   "Bidang belum tersedia"}
               </p>
 

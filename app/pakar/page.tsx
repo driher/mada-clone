@@ -51,18 +51,40 @@ export default function PakarPage() {
   }, []);
 
   // ======================
+  // BIDANG OPTIONS
+  // ======================
+  const bidangOptions = useMemo(() => {
+    const bidangSet = new Set<string>();
+
+    data.forEach((item) => {
+      const bidang =
+        item?.custom_fields?.bidang_keahlian;
+
+      if (
+        typeof bidang === "string" &&
+        bidang.trim()
+      ) {
+        bidangSet.add(bidang.trim());
+      }
+    });
+
+    return Array.from(bidangSet).sort();
+  }, [data]);
+
+  // ======================
   // FILTER
   // ======================
   const filtered = useMemo(() => {
+    const keyword = search.toLowerCase();
+
     return data
       .filter((item) => {
         const nama =
           item?.title?.rendered?.toLowerCase() || "";
 
         const bidang =
-          item?.custom_fields?.bidang?.toLowerCase() || "";
-
-        const keyword = search.toLowerCase();
+          item?.custom_fields?.bidang_keahlian
+            ?.toLowerCase() || "";
 
         return (
           nama.includes(keyword) ||
@@ -83,9 +105,13 @@ export default function PakarPage() {
     const bidangSet = new Set<string>();
 
     data.forEach((item) => {
-      const bidang = item?.custom_fields?.bidang;
+      const bidang =
+        item?.custom_fields?.bidang_keahlian;
 
-      if (bidang && bidang.trim()) {
+      if (
+        typeof bidang === "string" &&
+        bidang.trim()
+      ) {
         bidangSet.add(bidang.trim());
       }
     });
@@ -104,7 +130,6 @@ export default function PakarPage() {
 
             {/* LEFT */}
             <div>
-
               <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight">
                 Direktori Pakar
                 <br />
@@ -112,10 +137,10 @@ export default function PakarPage() {
               </h1>
 
               <p className="text-white/80 mt-5 text-lg max-w-2xl">
-                Temukan akademisi, peneliti, praktisi,
-                dan narasumber terbaik Program Studi
-                Ilmu Komunikasi UIN Sunan Gunung Djati
-                Bandung.
+                Temukan akademisi, peneliti,
+                praktisi, dan narasumber terbaik
+                Program Studi Ilmu Komunikasi
+                UIN Sunan Gunung Djati Bandung.
               </p>
 
               <div className="mt-8">
@@ -124,7 +149,6 @@ export default function PakarPage() {
                   onChange={setSearch}
                 />
               </div>
-
             </div>
 
             {/* RIGHT */}
@@ -164,7 +188,9 @@ export default function PakarPage() {
 
           {/* SIDEBAR */}
           <div className="lg:col-span-3">
-            <SidebarFilter />
+            <SidebarFilter
+              bidangOptions={bidangOptions}
+            />
           </div>
 
           {/* CONTENT */}
@@ -213,7 +239,7 @@ export default function PakarPage() {
               )}
 
             {/* GRID */}
-            {!loading && (
+            {!loading && filtered.length > 0 && (
               <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filtered.map((item) => (
                   <PakarCard

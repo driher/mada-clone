@@ -73,7 +73,7 @@ export default async function DetailPakar({
           <div className="px-8 pb-10 relative">
 
             {/* FOTO */}
-            <div className="absolute -top-24 left-8">
+            <div className="absolute -top-24 center-8">
               <img
                 src={foto}
                 alt={nama}
@@ -98,7 +98,7 @@ export default async function DetailPakar({
 
               {/* BIDANG */}
               <p className="text-xl text-green-700 mt-3 font-medium">
-                {custom?.bidang ||
+                {custom?.["bidang_keahlian"] ||
                   "Bidang belum tersedia"}
               </p>
 
