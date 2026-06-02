@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Image from "next/image";
 
 import PWAInstall from "@/components/PWAInstall";
 import Navbar from "@/components/Navbar";
@@ -81,6 +82,23 @@ export default function RootLayout({
           {children}
 
         </main>
+  {/* ================= BANNER ================= */}
+  <div className="w-full flex justify-center py-4 bg-white">
+    <a
+      href="https://www.instagram.com/tensholiday/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Image
+        src="/tens_holiday.gif"
+        alt="Ten's Holiday"
+        width={1000}
+        height={120}
+        priority
+        className="max-w-full h-auto"
+      />
+    </a>
+  </div>
 
         {/* ================= FOOTER (FULL BLEED) ================= */}
         <Footer />
