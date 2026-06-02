@@ -114,14 +114,33 @@ export default async function DetailPakar({
                       Rekam Jejak Akademik & Profesional
                     </h2>
 
-                    <p className="text-gray-600 leading-8 whitespace-pre-line">
-                      {
-                        custom?.[
-                          "rekam_jejak_akademik_&_profesional"
-                        ] ||
-                        "Data belum tersedia."
-                      }
-                    </p>
+ <div
+  className="
+    text-gray-700 leading-relaxed
+
+    [&>*]:mb-4
+    [&>p]:mb-5
+
+    [&>h2]:mt-8 [&>h2]:mb-4 [&>h2]:text-2xl [&>h2]:font-bold
+    [&>h3]:mt-6 [&>h3]:mb-3 [&>h3]:text-xl [&>h3]:font-semibold
+
+    [&>ul]:mb-5 [&>ul]:pl-6 [&>ul]:list-disc
+    [&>ol]:mb-5 [&>ol]:pl-6 [&>ol]:list-decimal
+
+    [&>ul>li]:mb-2
+    [&>ol>li]:mb-2
+
+    [&_img]:rounded-xl
+    [&_img]:w-full
+
+    [&>p>a]:text-orange-500 [&>p>a]:underline
+  "
+  dangerouslySetInnerHTML={{
+    __html:
+      custom?.["rekam_jejak_akademik_&_profesional"] ||
+      "Data belum tersedia.",
+  }}
+/>
                   </div>
 
                   {/* KEBUTUHAN MEDIA */}
@@ -130,10 +149,30 @@ export default async function DetailPakar({
                       Kebutuhan Media & Publik
                     </h2>
 
-                    <p className="text-gray-600 leading-8 whitespace-pre-line">
-                      {custom?.kebutuhan_media_dan_publik ||
-                        "Data belum tersedia."}
-                    </p>
+                   <div
+  className="  text-gray-700 leading-relaxed
+
+    [&>*]:mb-4
+    [&>p]:mb-5
+
+    [&>h2]:mt-8 [&>h2]:mb-4 [&>h2]:text-2xl [&>h2]:font-bold
+    [&>h3]:mt-6 [&>h3]:mb-3 [&>h3]:text-xl [&>h3]:font-semibold
+
+    [&>ul]:mb-5 [&>ul]:pl-6 [&>ul]:list-disc
+    [&>ol]:mb-5 [&>ol]:pl-6 [&>ol]:list-decimal
+
+    /* 🔥 INI YANG KURANG PENTINGNYA */
+    [&>ul>li]:mb-2
+    [&>ol>li]:mb-2
+
+    [&_img]:rounded-xl
+    [&_img]:w-full
+
+    [&>p>a]:text-orange-500 [&>p>a]:underline"
+  dangerouslySetInnerHTML={{
+    __html: custom?.kebutuhan_media_dan_publik || "Data belum tersedia.",
+  }}
+/>
                   </div>
 
                   {/* DESKRIPSI */}
@@ -144,7 +183,27 @@ export default async function DetailPakar({
                       </h2>
 
                       <div
-                        className="prose max-w-none"
+                          className="
+    text-gray-700 leading-relaxed
+
+    [&>*]:mb-4
+    [&>p]:mb-5
+
+    [&>h2]:mt-8 [&>h2]:mb-4 [&>h2]:text-2xl [&>h2]:font-bold
+    [&>h3]:mt-6 [&>h3]:mb-3 [&>h3]:text-xl [&>h3]:font-semibold
+
+    [&>ul]:mb-5 [&>ul]:pl-6 [&>ul]:list-disc
+    [&>ol]:mb-5 [&>ol]:pl-6 [&>ol]:list-decimal
+
+    /* 🔥 INI YANG KURANG PENTINGNYA */
+    [&>ul>li]:mb-2
+    [&>ol>li]:mb-2
+
+    [&_img]:rounded-xl
+    [&_img]:w-full
+
+    [&>p>a]:text-orange-500 [&>p>a]:underline
+  "
                         dangerouslySetInnerHTML={{
                           __html:
                             data.content.rendered,
