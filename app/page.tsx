@@ -5,6 +5,7 @@ import PopularLinks from "@/components/PopularLinks";
 import AcademicAnnouncement from "@/components/AcademicAnnouncement";
 import ProfileCard from "@/components/ProfileCard";
 import Link from "next/link";
+import VideoPopupAds from "@/components/VideoPopupAds";
 
 import {
   getKetuaJurusan,
@@ -63,9 +64,7 @@ export default async function Home() {
 
         {/* NEWS */}
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-            ðŸ“° Berita Terbaru
-          </h2>
+
           <NewsModern posts={beritaPosts} />
         </div>
 
@@ -83,22 +82,8 @@ export default async function Home() {
   </div>
 
   {/* Kolom 1/4 */}
-  <div className="lg:col-span-1">
-    <div className="bg-black rounded-xl overflow-hidden shadow-lg sticky top-4">
-     <video
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="metadata"
-  className="w-full aspect-[9/16] object-cover"
->
-  <source
-    src="https://cms.komunikasi.uinsgd.ac.id/wp-content/uploads/2026/06/iklan_01.mp4"
-    type="video/mp4"
-  />
-</video>
-    </div>
+  <div className="lg:col-span-1 mt-10">
+    <VideoPopupAds />
   </div>
 
 </div>
@@ -108,7 +93,7 @@ export default async function Home() {
 
           {/* PENGUMUMAN */}
           <div className="lg:col-span-7 bg-white rounded-2xl p-5 shadow-sm border">
-            <h2 className="text-xl font-bold mb-3">ðŸ“¢ Pengumuman Akademik</h2>
+            <h2 className="text-xl font-bold mb-3">Pengumuman Akademik</h2>
             <AcademicAnnouncement />
           </div>
 
