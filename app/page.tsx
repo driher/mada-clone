@@ -85,16 +85,19 @@ export default async function Home() {
   {/* Kolom 1/4 */}
   <div className="lg:col-span-1">
     <div className="bg-black rounded-xl overflow-hidden shadow-lg sticky top-4">
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="w-full h-auto"
-      >
-        <source src="/iklan_01.mp4" type="video/mp4" />
-        Browser Anda tidak mendukung video.
-      </video>
+     <video
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="metadata"
+  className="w-full aspect-[9/16] object-cover"
+>
+  <source
+    src="https://cms.komunikasi.uinsgd.ac.id/wp-content/uploads/2026/06/iklan_01.mp4"
+    type="video/mp4"
+  />
+</video>
     </div>
   </div>
 
