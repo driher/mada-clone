@@ -3,24 +3,38 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 
-export default function AgendaSlider({ posts = [] }: any) {
+interface AgendaSliderProps {
+  posts?: any[];
+}
+
+export default function AgendaSlider({
+  posts = [],
+}: AgendaSliderProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // auto scroll slider
+  // Auto Scroll
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!scrollRef.current || posts.length === 0) return;
+    if (!posts.length) return;
 
-      scrollRef.current.scrollBy({
+    const interval = setInterval(() => {
+      const container = scrollRef.current;
+      if (!container) return;
+
+      container.scrollBy({
         left: 280,
         behavior: "smooth",
       });
 
       if (
-        scrollRef.current.scrollLeft + scrollRef.current.clientWidth >=
-        scrollRef.current.scrollWidth
+        container.scrollLeft + container.clientWidth >=
+        container.scrollWidth - 50
       ) {
-        scrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        setTimeout(() => {
+          container.scrollTo({
+            left: 0,
+            behavior: "smooth",
+          });
+        }, 800);
       }
     }, 4000);
 
@@ -32,27 +46,41 @@ export default function AgendaSlider({ posts = [] }: any) {
     "/no-image.jpg";
 
   return (
-    <section className="max-w-6xl mx-auto px-4 mt-6">
+    <section className="w-full">
 
-      {/* TITLE */}
-   
-      {/* EMPTY STATE */}
       {posts.length === 0 ? (
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-gray-500">
           Tidak ada agenda tersedia
         </p>
       ) : (
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-2"
+          className="
+            grid
+            grid-rows-2
+            grid-flow-col
+            gap-4
+            overflow-x-auto
+            scroll-smooth
+            no-scrollbar
+            pb-2
+          "
         >
           {posts.map((post: any) => (
             <Link
               key={post.id}
               href={`/agenda/${post.slug}`}
-              className="min-w-[260px] max-w-[260px] bg-white rounded-xl shadow-sm hover:shadow-lg transition duration-300 overflow-hidden"
+              className="
+                w-[260px]
+                bg-white
+                rounded-xl
+                overflow-hidden
+                shadow-sm
+                hover:shadow-lg
+                transition-all
+                duration-300
+              "
             >
-
               <img
                 src={getImage(post)}
                 alt={post.title.rendered}
@@ -60,25 +88,25 @@ export default function AgendaSlider({ posts = [] }: any) {
               />
 
               <div className="p-3">
-
                 <h3
-                  className="text-sm font-medium leading-snug line-clamp-2"
+                  className="text-sm font-semibold leading-snug line-clamp-2 min-h-[40px]"
                   dangerouslySetInnerHTML={{
                     __html: post.title.rendered,
                   }}
                 />
 
-                <p className="text-xs text-gray-400 mt-2">
-                  {new Date(post.date).toLocaleDateString("id-ID")}
+                <p className="text-xs text-gray-500 mt-2">
+                  {new Date(post.date).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
                 </p>
-
               </div>
-
             </Link>
           ))}
         </div>
       )}
-
     </section>
   );
 }

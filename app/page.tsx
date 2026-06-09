@@ -64,25 +64,48 @@ export default async function Home() {
         {/* NEWS */}
         <div>
           <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-            📰 Berita Terbaru
+            ðŸ“° Berita Terbaru
           </h2>
           <NewsModern posts={beritaPosts} />
         </div>
 
         {/* AGENDA */}
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold mb-4">
-            📅 Agenda Kampus
-          </h2>
-          <AgendaSlider posts={agendaPosts} />
-        </div>
+    {/* AGENDA + IKLAN */}
+<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+  {/* Kolom 3/4 */}
+  <div className="lg:col-span-3">
+    <h2 className="text-xl sm:text-2xl font-bold mb-4">
+      📅 Agenda Kampus
+    </h2>
+
+    <AgendaSlider posts={agendaPosts} />
+  </div>
+
+  {/* Kolom 1/4 */}
+  <div className="lg:col-span-1">
+    <div className="bg-black rounded-xl overflow-hidden shadow-lg sticky top-4">
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-full h-auto"
+      >
+        <source src="/iklan_01.mp4" type="video/mp4" />
+        Browser Anda tidak mendukung video.
+      </video>
+    </div>
+  </div>
+
+</div>
 
         {/* ANNOUNCEMENT + PRESTASI */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
           {/* PENGUMUMAN */}
           <div className="lg:col-span-7 bg-white rounded-2xl p-5 shadow-sm border">
-            <h2 className="text-xl font-bold mb-3">📢 Pengumuman Akademik</h2>
+            <h2 className="text-xl font-bold mb-3">ðŸ“¢ Pengumuman Akademik</h2>
             <AcademicAnnouncement />
           </div>
 
